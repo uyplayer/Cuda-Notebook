@@ -6,8 +6,13 @@
 #define CUDA_NOTEBOOK_COMMON_H
 
 
-#include <cuda_runtime.h>
+
+
 #include <stdio.h>
+#include <iostream>
+#include <cuda_runtime.h>
+#include <cuda.h>
+
 
 static void HandleError( cudaError_t err,
                          const char *file,
@@ -25,6 +30,7 @@ static void HandleError( cudaError_t err,
                             printf( "Host memory failed in %s at line %d\n", \
                                     __FILE__, __LINE__ ); \
                             exit( EXIT_FAILURE );}}
+
 
 
 #endif //CUDA_NOTEBOOK_COMMON_H

@@ -68,3 +68,13 @@
 - He Kun 的 CUDA 编程指南中文翻译：[CUDA Programming Guide in Chinese on GitHub](https://github.com/HeKun-NVIDIA/CUDA-Programming-Guide-in-Chinese)
 - [CUDA-by-Example-source-code-for-the-book-s-examples](https://github.com/CodedK/CUDA-by-Example-source-code-for-the-book-s-examples-)
 
+
+## 配置
+### Clion 
+```bash 
+# Clion Cmake options 
+-DCMAKE_CUDA_COMPILER="D:/software/installed/cuda development/bin/nvcc.exe"
+```
+```bash
+# 配置Build：点击Edit Configurations 添加target/executable
+```
