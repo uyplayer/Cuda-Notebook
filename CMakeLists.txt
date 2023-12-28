@@ -8,7 +8,7 @@ set(CMAKE_CUDA_ARCHITECTURES 86)
 
 include_directories(${PROJECT_SOURCE_DIR}/common)
 
-include_directories(D:/software/installed/cuda development/include)
+#include_directories(D:/software/installed/cuda development/include)
 
 
 # 为每个章节添加子目录
