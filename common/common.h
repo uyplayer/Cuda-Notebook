@@ -6,7 +6,7 @@
 #define CUDA_NOTEBOOK_COMMON_H
 
 
-
+#include <cuda_runtime.h>
 #include <stdio.h>
 
 static void HandleError( cudaError_t err,
