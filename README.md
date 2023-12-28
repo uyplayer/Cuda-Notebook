@@ -70,11 +70,12 @@
 
 
 ## 配置
-### Clion 
+### Clion Windows
+#### 第一步
 ```bash 
-# Clion Cmake options 
--DCMAKE_CUDA_COMPILER="D:/software/installed/cuda development/bin/nvcc.exe"
+安装 Visual Studio ， Clion其他配置默认的
 ```
+#### 第二步
 ```bash
-# 配置Build：点击Edit Configurations 添加target/executable
+配置Build：点击Edit Configurations 添加target/executable
 ```
