@@ -1,5 +1,7 @@
-# CUDA 进阶学习计划
+# CUDA 学习计划
 
+## 项目简介
+此项目旨在提供一个详细的 CUDA 进阶学习计划。通过一系列分阶段的学习任务和实践项目，您将能够深入理解和提高 CUDA 编程技能。
 
 ## 学习路径
 
@@ -58,5 +60,11 @@
   - 规划并开始一个小型 CUDA 项目。
 - [ ] **持续学习**：
   - 跟进 CUDA 的最新开发动态和技术论文。
+
+## 资源
+- Bruce Fan 的 CUDA 编程资源：[CUDA Programming on GitHub](https://github.com/brucefan1983/CUDA-Programming)
+- NVIDIA CUDA 编程指南中文版（1.1）：[NVIDIA CUDA Programming Guide 1.1 (Chinese)](https://www.nvidia.cn/docs/IO/51635/NVIDIA_CUDA_Programming_Guide_1.1_chs.pdf)
+- 北京大学高性能计算中心 CUDA 教程：[Peking University HPC CUDA Tutorial (Chinese)](https://hpc.pku.edu.cn/docs/20170829223652566150.pdf)
+- He Kun 的 CUDA 编程指南中文翻译：[CUDA Programming Guide in Chinese on GitHub](https://github.com/HeKun-NVIDIA/CUDA-Programming-Guide-in-Chinese)
 
 
