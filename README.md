@@ -66,5 +66,5 @@
 - NVIDIA CUDA 编程指南中文版（1.1）：[NVIDIA CUDA Programming Guide 1.1 (Chinese)](https://www.nvidia.cn/docs/IO/51635/NVIDIA_CUDA_Programming_Guide_1.1_chs.pdf)
 - 北京大学高性能计算中心 CUDA 教程：[Peking University HPC CUDA Tutorial (Chinese)](https://hpc.pku.edu.cn/docs/20170829223652566150.pdf)
 - He Kun 的 CUDA 编程指南中文翻译：[CUDA Programming Guide in Chinese on GitHub](https://github.com/HeKun-NVIDIA/CUDA-Programming-Guide-in-Chinese)
-
+- [CUDA-by-Example-source-code-for-the-book-s-examples](https://github.com/CodedK/CUDA-by-Example-source-code-for-the-book-s-examples-)
 
