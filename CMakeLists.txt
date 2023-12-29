@@ -12,7 +12,7 @@ include_directories(${PROJECT_SOURCE_DIR}/common)
 # this 2 ine only refer header
 include_directories(${PROJECT_SOURCE_DIR}/lib/googletest-1.14.0/googlemock/include)
 include_directories(${PROJECT_SOURCE_DIR}/lib/googletest-1.14.0/googletest/include)
-# also need add googletest's lib
+# also need add googletest lib
 set(GTEST_DIR "${PROJECT_SOURCE_DIR}/lib/googletest-1.14.0")
 add_subdirectory(${GTEST_DIR})
 
