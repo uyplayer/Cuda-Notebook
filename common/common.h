@@ -13,6 +13,7 @@
 #include <cuda_runtime.h>
 #include <cuda.h>
 #include <random>
+#include <gtest/gtest.h>
 
 static void HandleError( cudaError_t err,const char *file,int line ) {
     if (err != cudaSuccess) {

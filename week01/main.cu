@@ -3,27 +3,11 @@
 #include "../common/common.h"
 
 
+extern void runVectorAdditionResult();
 
-
-
-
-
-
-
-extern void runVectorAddition();
-
-int main()
-{
-    runVectorAddition();
+int main(int argc, char **argv) {
+    runVectorAdditionResult();
     return 0;
 }
-
-
-
-
-
-
-
-
 
 

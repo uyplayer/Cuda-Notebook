@@ -1,5 +1,4 @@
 
-
 #include "../common/common.h"
 
 
@@ -9,9 +8,19 @@ void vectorAddCPU(const float *A, const float *B, float *C, int numElements);
 
 bool validateResults(float *h_C, float *h_C_ref, int numElements);
 
+bool runVectorAddition();
+
+void runVectorAdditionResult() {
+    if (runVectorAddition()) {
+        printf("\nSuccess\n");
+    } else {
+        printf("\nFailed\n");
+    }
+}
 
 /// 运行相加操作
-void runVectorAddition() {
+/// 运行相加操作，并返回计算是否成功
+bool runVectorAddition() {
     printf("runVectorAddition running for test");
 
     // 元素个数
@@ -38,9 +47,10 @@ void runVectorAddition() {
     float *d_A = nullptr;
     float *d_B = nullptr;
     float *d_C = nullptr;
-    cudaMalloc((void **) &d_A, size);
-    cudaMalloc((void **) &d_B, size);
-    cudaMalloc((void **) &d_C, size);
+
+    HANDLE_ERROR(cudaMalloc((void **) &d_A, size));
+    HANDLE_ERROR(cudaMalloc((void **) &d_B, size));
+    HANDLE_ERROR(cudaMalloc((void **) &d_C, size));
 
     // 将数据从主机拷贝到设备
     cudaMemcpy(d_A, h_A, size, cudaMemcpyHostToDevice);
@@ -64,22 +74,20 @@ void runVectorAddition() {
     vectorAddCPU(h_A, h_B, h_C_ref, numElements);
 
     // 验证结果
-    if (validateResults(h_C, h_C_ref, numElements)) {
-        std::cout << "Test PASSED" << std::endl;
-    } else {
-        std::cout << "Test FAILED" << std::endl;
-    }
+    bool success = validateResults(h_C, h_C_ref, numElements);
+
     // 释放设备内存
-    cudaFree(d_A);
-    cudaFree(d_B);
-    cudaFree(d_C);
+    HANDLE_ERROR(cudaFree(d_A));
+    HANDLE_ERROR(cudaFree(d_B));
+    HANDLE_ERROR(cudaFree(d_C));
+
     // 释放主机内存
     delete[] h_A;
     delete[] h_B;
     delete[] h_C;
     delete[] h_C_ref;
 
-
+    return success;
 }
 
 /// 验证相加操作
@@ -126,3 +134,5 @@ void vectorAddCPU(const float *A, const float *B, float *C, int numElements) {
         C[i] = A[i] + B[i];
     }
 }
+
+
