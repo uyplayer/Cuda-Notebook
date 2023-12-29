@@ -18,8 +18,8 @@ add_subdirectory(${GTEST_DIR})
 
 
 # add sub dir
-add_subdirectory(check_configuration)
 add_subdirectory(tests)
+add_subdirectory(check_configuration)
 add_subdirectory(week01)
 
 

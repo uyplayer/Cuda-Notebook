@@ -1,5 +1,5 @@
 # 查找 Google Test 库
-find_package(GTest REQUIRED)
+#find_package(GTest REQUIRED)
 
 # 设置项目源文件
 set(SOURCES
