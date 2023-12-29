@@ -21,7 +21,7 @@ void runVectorAdditionResult() {
 /// 运行相加操作
 /// 运行相加操作，并返回计算是否成功
 bool runVectorAddition() {
-    printf("runVectorAddition running for test");
+    printf("runVectorAddition running for test\n");
 
     // 元素个数
     int numElements = 50000;

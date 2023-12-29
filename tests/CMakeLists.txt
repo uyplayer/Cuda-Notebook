@@ -1,5 +1,10 @@
 
-add_executable(vector_add_test test_week01.cu ../week01/vectorAdd.cu)
+set(SOURCE_FILES
+        test_week01.cu
+        ../week01/vectorAdd.cu
+)
+
+add_executable(vector_add_test ${SOURCE_FILES})
 
 
 if(TARGET gtest_main)
@@ -14,6 +19,8 @@ endif()
 
 
 
-
+target_include_directories(vector_add_test PRIVATE
+        ../week01
+)
 
 
