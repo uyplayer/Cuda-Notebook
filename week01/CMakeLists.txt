@@ -5,6 +5,8 @@ find_package(GTest REQUIRED)
 set(SOURCES
         main.cu
         vectorAdd.cu
+        add2dim.cu
+        add3dim.cu
         week01.h
 )
 
