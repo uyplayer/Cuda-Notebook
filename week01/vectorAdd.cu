@@ -2,6 +2,7 @@
 #include "../common/common.h"
 
 
+
 __global__ void vectorAdd(const float *A, const float *B, float *C, int numElements);
 
 void vectorAddCPU(const float *A, const float *B, float *C, int numElements);
