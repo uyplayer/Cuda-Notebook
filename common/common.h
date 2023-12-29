@@ -12,7 +12,7 @@
 #include <iostream>
 #include <cuda_runtime.h>
 #include <cuda.h>
-
+#include <random>
 
 static void HandleError( cudaError_t err,const char *file,int line ) {
     if (err != cudaSuccess) {

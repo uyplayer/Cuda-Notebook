@@ -13,6 +13,7 @@ include_directories(${PROJECT_SOURCE_DIR}/common)
 
 # 为每个章节添加子目录
 add_subdirectory(check_configuration)
+add_subdirectory(week01)
 
 # 假设你的可执行文件叫做 cuda_app
 # target_link_libraries(cuda_app ${CUDA_LIBRARIES})
