@@ -1,6 +1,6 @@
 
 
-#include "../common/common.h"
+#include "common.h"
 
 
 // 定义二维数组的宽度和高度
@@ -17,7 +17,7 @@ bool add2_dim();
 
 void run_add2_dim() {
     bool result = add2_dim();
-    std::cout<< result << std::endl;
+    std::cout << result << std::endl;
     if (result) {
         printf("\nSuccess\n");
     } else {
@@ -27,7 +27,6 @@ void run_add2_dim() {
 
 // add 2 dim
 bool add2_dim() {
-    printf("add2_dim running for test\n");
     // 计算数组大小
     size_t size = width * height * sizeof(float);
 
@@ -62,8 +61,8 @@ bool add2_dim() {
     HANDLE_ERROR(cudaMalloc((void **) &d_B, size));
     HANDLE_ERROR(cudaMalloc((void **) &d_C, size));
 
-    auto * flatArrayA = new float[width * height];
-    auto * flatArrayB = new float[width * height];
+    auto *flatArrayA = new float[width * height];
+    auto *flatArrayB = new float[width * height];
 
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {

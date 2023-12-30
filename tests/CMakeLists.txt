@@ -1,20 +1,16 @@
 cmake_minimum_required(VERSION 3.18)
-
 project(Cuda-Notebook LANGUAGES C CXX CUDA)
 
-
 # load GTest lib
-#set(GTest_DIR "${VCPKG_ROOT}\\installed\\x64-windows\\share\\gtest")
+set(GTest_DIR "${VCPKG_ROOT}\\installed\\x64-windows\\share\\gtest")
 enable_testing()
 find_package(GTest CONFIG REQUIRED)
 # check
-if(GTest_FOUND)
+if (GTest_FOUND)
     message(STATUS "Google Test found: ${GTest_DIR}")
-else()
+else ()
     message(FATAL_ERROR "Google Test not found")
-endif()
-
-
+endif ()
 
 set(SOURCE
         ../src/week01/add1dim.cu
@@ -29,11 +25,9 @@ add_executable(week01_tests
 
 include_directories(${PROJECT_SOURCE_DIR}/src/week01)
 
-
 target_link_libraries(week01_tests PRIVATE
         GTest::gtest
         GTest::gtest_main
 )
-
 
 add_test(NAME week01_tests COMMAND week01_tests)

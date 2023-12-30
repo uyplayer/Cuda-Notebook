@@ -1,9 +1,9 @@
 
-#include "../common/common.h"
+#include "common.h"
 
 // 定义三维数组的宽度、高度和深度
 const int width = 100;
-const int height = 40;
+const int height = 400;
 const int depth = 20;
 
 __global__ void dim3Kernel(const float *A, const float *B, float *C);
@@ -18,7 +18,7 @@ bool add3_dim();
 
 void run_add3_dim() {
     bool result = add3_dim();
-    std::cout<< result << std::endl;
+    std::cout << result << std::endl;
     if (result) {
         printf("\nSuccess\n");
     } else {
@@ -28,7 +28,6 @@ void run_add3_dim() {
 
 // add 3 dim
 bool add3_dim() {
-    printf("add3_dim running for test\n");
     // 计算数组大小
     size_t size = width * height * depth * sizeof(float);
 
@@ -63,9 +62,9 @@ bool add3_dim() {
     float *d_B = nullptr;
     float *d_C = nullptr;
 
-    HANDLE_ERROR(cudaMalloc((void ***)&d_A, size));
-    HANDLE_ERROR(cudaMalloc((void ***)&d_B, size));
-    HANDLE_ERROR(cudaMalloc((void **)&d_C, size));
+    HANDLE_ERROR(cudaMalloc((void ***) &d_A, size));
+    HANDLE_ERROR(cudaMalloc((void ***) &d_B, size));
+    HANDLE_ERROR(cudaMalloc((void **) &d_C, size));
 
     auto *flatArrayA = new float[width * height * depth];
     auto *flatArrayB = new float[width * height * depth];
@@ -98,14 +97,14 @@ bool add3_dim() {
     // 将结果从设备拷贝回主机
     HANDLE_ERROR(cudaMemcpy(flatArrayC, d_C, size, cudaMemcpyDeviceToHost));
 
-    std::cout << flatArrayC[100]<< std::endl;
-    std::cout << flatArrayC[200]<< std::endl;
-    std::cout << flatArrayC[300]<< std::endl;
+//    std::cout << flatArrayC[100]<< std::endl;
+//    std::cout << flatArrayC[200]<< std::endl;
+//    std::cout << flatArrayC[300]<< std::endl;
 
 
-    auto *h_C_ref = new float [depth * width * height];
+    auto *h_C_ref = new float[depth * width * height];
     //    dim3KernelCPU(flatArrayA, flatArrayB, h_C_ref);
-    dim3KernelCPU((const float ***)arrayA, (const float ***)arrayB, h_C_ref);
+    dim3KernelCPU((const float ***) arrayA, (const float ***) arrayB, h_C_ref);
 
     bool success = validateResults3(flatArrayC, h_C_ref);
 

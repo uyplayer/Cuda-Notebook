@@ -1,6 +1,6 @@
 
 
-#include "common/common.h"
+#include "common.h"
 
 int main() {
     int driver_version = 0, runtime_version = 0;

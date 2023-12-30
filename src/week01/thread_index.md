@@ -1,11 +1,14 @@
 # 线程索引计算
+
 - threadIdx.x、threadIdx.y、threadIdx.z：当前线程在它的线程块内的索引。
 - blockIdx.x、blockIdx.y、blockIdx.z：当前线程块在网格中的索引。
 - blockDim.x、blockDim.y、blockDim.z：每个线程块中的线程数量。
 - gridDim.x、gridDim.y、gridDim.z：网格的尺寸，以线程块为单位。
 
 ## 线程的全局索引计算
+
 ### 一维
+
 ```cpp
 # blockDim.x 线程块x方向的线程数量
 # blockIdx.x 当前线程块在网络中的索引
@@ -14,6 +17,7 @@ int index = threadIdx.x + blockIdx.x * blockDim.x;
 ```
 
 ### 二维
+
 ```cpp
 
 const int dataWidth = 10;  // Data array width
@@ -38,6 +42,7 @@ int yIndex = threadIdx.y + blockIdx.y * blockDim.y;
 ```
 
 ### 三维
+
 ```cpp
 const int depth = 4;
 const int height = 10;
