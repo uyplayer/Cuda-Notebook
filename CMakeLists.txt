@@ -6,6 +6,7 @@ project(Cuda-Notebook LANGUAGES C CXX CUDA)
 # cuda architecture
 set(CMAKE_CUDA_ARCHITECTURES 86)
 
+
 # config vcpkg
 set(VCPKG_ROOT "D:/Software/vcpkg")
 # vcpkg toolchain
@@ -15,6 +16,7 @@ include_directories("${VCPKG_ROOT}/installed/x64-windows/include")
 message("vcpkg_DIR: ${VCPKG_ROOT}")
 message("vcpkg.cmake dir: ${CMAKE_TOOLCHAIN_FILE}")
 message("vcpkg header: ${VCPKG_ROOT}/installed/x64-windows/include")
+
 
 # add common/include/lib/third_party
 include_directories(${PROJECT_SOURCE_DIR}/common)
@@ -26,12 +28,12 @@ link_directories(${PROJECT_SOURCE_DIR}/third_party)
 
 
 # add sub dirs
-add_subdirectory(lib)
 add_subdirectory(examples)
 add_subdirectory(third_party)
 add_subdirectory(tests)
 add_subdirectory(src/check_configuration)
 add_subdirectory(src/week01)
+
 
 
 
