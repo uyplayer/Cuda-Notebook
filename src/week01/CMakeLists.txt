@@ -4,10 +4,10 @@
 # 设置项目源文件
 set(SOURCES
         main.cu
-        vectorAdd.cu
+        add1dim.cu
         add2dim.cu
         add3dim.cu
-        week01.h
+        ../../include/week01.h
 )
 
 # 创建主项目目标

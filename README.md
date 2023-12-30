@@ -75,11 +75,15 @@
 ### Clion Windows
 #### 第一步
 ```bash 
-安装 Visual Studio ，保持 Clion 的其他配置默认。
+安装 Visual Studio ，保持 Clion 的其他配置默认
 ```
 配置 Build：
 1. 点击 Clion 中的 Edit Configurations。
 2. 添加 target/executable。
 3. 确保配置包含 CUDA 相关的选项，如指定正确的 CUDA 工具链、设置合适的编译器和链接器选项。
-4. 配置用于 CUDA 开发的环境变量，如 PATH 和 LD_LIBRARY_PATH。
+4. 安装vcpkg
+5. 通过vcpkg安装你想要的第三方库
+6. 顶级CMakelists里面配置vcpkg
+7. 顶级CMakelists里面配置vcpkg里面的include头文件
+8. 环境变量配置vcpkg安装的bin目录
 

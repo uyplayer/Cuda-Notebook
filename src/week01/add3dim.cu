@@ -2,9 +2,9 @@
 #include "../common/common.h"
 
 // 定义三维数组的宽度、高度和深度
-const int width = 1000;
-const int height = 400;
-const int depth = 200;
+const int width = 100;
+const int height = 40;
+const int depth = 20;
 
 __global__ void dim3Kernel(const float *A, const float *B, float *C);
 
@@ -17,7 +17,9 @@ bool validateResults3(float *h_C, float *h_C_ref);
 bool add3_dim();
 
 void run_add3_dim() {
-    if (add3_dim()) {
+    bool result = add3_dim();
+    std::cout<< result << std::endl;
+    if (result) {
         printf("\nSuccess\n");
     } else {
         printf("\nFailed\n");

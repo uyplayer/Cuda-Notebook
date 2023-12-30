@@ -4,8 +4,8 @@
 
 
 // 定义二维数组的宽度和高度
-const int width = 1000;
-const int height = 40000;
+const int width = 100;
+const int height = 500;
 
 __global__ void dim2Kernel(const float *A, const float *B, float *C);
 
@@ -16,7 +16,9 @@ bool validateResults(float *h_C, float *h_C_ref);
 bool add2_dim();
 
 void run_add2_dim() {
-    if (add2_dim()) {
+    bool result = add2_dim();
+    std::cout<< result << std::endl;
+    if (result) {
         printf("\nSuccess\n");
     } else {
         printf("\nFailed\n");
