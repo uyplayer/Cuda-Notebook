@@ -48,6 +48,5 @@ int main() {
     std::cout << "CUDA Runtime Version: " << runtime_version << std::endl;
 
     printf("Hallow Cuda");
-
     return 0;
 }

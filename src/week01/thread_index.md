@@ -65,3 +65,12 @@ __global__ void myKernel(float* data, int width, int height, int depth) {
 }
 
 ```
+
+### 网络和块的限制
+```bash
+
+不同的硬件架构有不一样的限制。
+nvidia GPU cuda 核函数中网格，线程块数量各有限制
+比如块 X 维度最大为 1024。Y 维度最大为 1024Z 维度最大为 64。
+比如网格 X 维度最大为 65535。Y 维度最大为 65535。Z 维度最大为 65535。
+```
