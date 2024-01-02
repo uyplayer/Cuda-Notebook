@@ -25,8 +25,6 @@ link_directories(${PROJECT_SOURCE_DIR}/lib)
 link_directories(${PROJECT_SOURCE_DIR}/third_party)
 
 
-
-
 # add sub dirs
 add_subdirectory(examples)
 add_subdirectory(third_party)

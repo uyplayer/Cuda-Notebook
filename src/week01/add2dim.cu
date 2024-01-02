@@ -17,7 +17,6 @@ bool add2_dim();
 
 void run_add2_dim() {
     bool result = add2_dim();
-    std::cout << result << std::endl;
     if (result) {
         printf("\nSuccess\n");
     } else {

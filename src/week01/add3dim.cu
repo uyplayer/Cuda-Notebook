@@ -1,16 +1,13 @@
-
 #include "common.h"
 
 // 定义三维数组的宽度、高度和深度
 const int width = 100;
 const int height = 400;
-const int depth = 20;
+const int depth = 200;
 
 __global__ void dim3Kernel(const float *A, const float *B, float *C);
 
-//void dim3KernelCPU(const float *A, const float *B, float *C);
-void dim3KernelCPU(const float ***A, const float ***B, float *C);
-
+void dim3KernelCPU(const float *A, const float *B, float *C);
 
 bool validateResults3(float *h_C, float *h_C_ref);
 
@@ -18,7 +15,6 @@ bool add3_dim();
 
 void run_add3_dim() {
     bool result = add3_dim();
-    std::cout << result << std::endl;
     if (result) {
         printf("\nSuccess\n");
     } else {
@@ -32,16 +28,8 @@ bool add3_dim() {
     size_t size = width * height * depth * sizeof(float);
 
     // 分配主机内存并初始化数组
-    auto ***arrayA = new float **[height];
-    auto ***arrayB = new float **[height];
-    for (int i = 0; i < height; ++i) {
-        arrayA[i] = new float *[width];
-        arrayB[i] = new float *[width];
-        for (int j = 0; j < width; ++j) {
-            arrayA[i][j] = new float[depth];
-            arrayB[i][j] = new float[depth];
-        }
-    }
+    std::vector<std::vector<std::vector<float>>> arrayA(height, std::vector<std::vector<float>>(width, std::vector<float>(depth)));
+    std::vector<std::vector<std::vector<float>>> arrayB(height, std::vector<std::vector<float>>(width, std::vector<float>(depth)));
 
     // 使用随机数初始化数组
     std::random_device rd;
@@ -62,28 +50,33 @@ bool add3_dim() {
     float *d_B = nullptr;
     float *d_C = nullptr;
 
-    HANDLE_ERROR(cudaMalloc((void ***) &d_A, size));
-    HANDLE_ERROR(cudaMalloc((void ***) &d_B, size));
-    HANDLE_ERROR(cudaMalloc((void **) &d_C, size));
+    HANDLE_ERROR(cudaMalloc((void**)&d_A, size));
+    HANDLE_ERROR(cudaMalloc((void**)&d_B, size));
+    HANDLE_ERROR(cudaMalloc((void**)&d_C, size));
 
     auto *flatArrayA = new float[width * height * depth];
     auto *flatArrayB = new float[width * height * depth];
 
+    // 展平三维数组以用于 CUDA 操作
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
             for (int k = 0; k < depth; ++k) {
-                flatArrayA[i * width * depth + j * depth + k] = arrayA[i][j][k];
-                flatArrayB[i * width * depth + j * depth + k] = arrayB[i][j][k];
+                // 三维数组转换成一为数组
+                int index = i * (width * depth) + j * depth + k;
+                flatArrayA[index] = arrayA[i][j][k];
+                flatArrayB[index] = arrayB[i][j][k];
             }
         }
     }
-
-
     HANDLE_ERROR(cudaMemcpy(d_A, flatArrayA, size, cudaMemcpyHostToDevice));
     HANDLE_ERROR(cudaMemcpy(d_B, flatArrayB, size, cudaMemcpyHostToDevice));
 
     // 定义线程块和网格大小
-    dim3 threadsPerBlock(16, 16, 8); // 三维线程块
+    // 每个线程块 10 * 10 * 5 = 500 线程
+    // 一个重要的概念：nvidia GPU cuda 核函数中网格，线程块数量各有限制
+    // 比如块 X 维度最大为 1024。Y 维度最大为 1024Z 维度最大为 64
+    // 比如网格X 维度最大为 65535。Y 维度最大为 65535。Z 维度最大为 65535。
+    dim3 threadsPerBlock(10, 10, 5); // 三维线程块
     dim3 numBlocks((width + threadsPerBlock.x - 1) / threadsPerBlock.x,
                    (height + threadsPerBlock.y - 1) / threadsPerBlock.y,
                    (depth + threadsPerBlock.z - 1) / threadsPerBlock.z);
@@ -96,19 +89,10 @@ bool add3_dim() {
     auto *flatArrayC = new float[width * height * depth];
     // 将结果从设备拷贝回主机
     HANDLE_ERROR(cudaMemcpy(flatArrayC, d_C, size, cudaMemcpyDeviceToHost));
-
-//    std::cout << flatArrayC[100]<< std::endl;
-//    std::cout << flatArrayC[200]<< std::endl;
-//    std::cout << flatArrayC[300]<< std::endl;
-
-
-    auto *h_C_ref = new float[depth * width * height];
-    //    dim3KernelCPU(flatArrayA, flatArrayB, h_C_ref);
-    dim3KernelCPU((const float ***) arrayA, (const float ***) arrayB, h_C_ref);
+    auto *h_C_ref = new float[width * height * depth];
+    dim3KernelCPU(flatArrayA, flatArrayB, h_C_ref);
 
     bool success = validateResults3(flatArrayC, h_C_ref);
-
-
 
     // 释放设备内存
     HANDLE_ERROR(cudaFree(d_A));
@@ -118,16 +102,6 @@ bool add3_dim() {
     // 释放主机内存
     delete[] flatArrayA;
     delete[] flatArrayB;
-    for (int i = 0; i < height; ++i) {
-        for (int j = 0; j < width; ++j) {
-            delete[] arrayA[i][j];
-            delete[] arrayB[i][j];
-        }
-        delete[] arrayA[i];
-        delete[] arrayB[i];
-    }
-    delete[] arrayA;
-    delete[] arrayB;
     delete[] flatArrayC;
     delete[] h_C_ref;
 
@@ -135,7 +109,6 @@ bool add3_dim() {
 }
 
 __global__ void dim3Kernel(const float *A, const float *B, float *C) {
-
     auto xIndex = threadIdx.x + blockIdx.x * blockDim.x;
     auto yIndex = threadIdx.y + blockIdx.y * blockDim.y;
     auto zIndex = threadIdx.z + blockIdx.z * blockDim.z;
@@ -146,19 +119,12 @@ __global__ void dim3Kernel(const float *A, const float *B, float *C) {
     }
 }
 
-//void dim3KernelCPU(const float *A, const float *B, float *C) {
-//    for (int index = 0 ; index < depth * width * height ; index ++) {
-//        C[index] = A[index] + B[index];
-//    }
-//}
-
-void dim3KernelCPU(const float ***A, const float ***B, float *C) {
+void dim3KernelCPU(const float *A, const float *B, float *C) {
     for (int z = 0; z < depth; ++z) {
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
                 auto index = z * width * height + y * width + x;
-                C[index] = A[y][x][z] + B[y][x][z];
-
+                C[index] = A[index] + B[index];
             }
         }
     }
