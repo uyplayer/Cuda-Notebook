@@ -7,8 +7,8 @@ project(Cuda-Notebook LANGUAGES C CXX CUDA)
 set(CMAKE_CUDA_ARCHITECTURES 86)
 
 
-# config vcpkg
-set(VCPKG_ROOT "D:/Software/vcpkg")
+# config vcpkg ,put vcpkg dir into  system variable environment
+set(VCPKG_ROOT "$ENV{vcpkg_root_dir}")
 # vcpkg toolchain
 SET(CMAKE_TOOLCHAIN_FILE "${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
 # vcpkg installed library header file location
@@ -33,7 +33,3 @@ add_subdirectory(third_party)
 add_subdirectory(tests)
 add_subdirectory(src/check_configuration)
 add_subdirectory(src/week01)
-
-
-
-
