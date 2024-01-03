@@ -9,6 +9,7 @@
 #include <cuda_runtime.h>
 #include <cuda.h>
 #include <random>
+#include "cudnn.h"
 
 
 
