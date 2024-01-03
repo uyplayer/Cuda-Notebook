@@ -114,6 +114,7 @@ __global__ void dim3Kernel(const float *A, const float *B, float *C) {
     auto zIndex = threadIdx.z + blockIdx.z * blockDim.z;
 
     if (xIndex < width && yIndex < height && zIndex < depth) {
+        // 全局索引
         auto index = zIndex * width * height + yIndex * width + xIndex;
         C[index] = A[index] + B[index];
     }

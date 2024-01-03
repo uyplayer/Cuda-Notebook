@@ -8,6 +8,7 @@ set(SOURCES
         add2dim.cu
         add3dim.cu
         ../../include/week01.h
+        transpose.cu
 )
 
 # 创建主项目目标
