@@ -23,7 +23,7 @@ __global__ void transpose(float* out, const float* in, const int rows, const int
     }
 }
 
-int main() {
+bool transpose_matrix() {
     // 定义矩阵的行数和列数
     const int rows = 1024;
     const int cols = 1024;
@@ -38,9 +38,8 @@ int main() {
     }
 
     float *d_in, *d_out;
-    cudaMalloc(&d_in, rows * cols * sizeof(float));
-    cudaMalloc(&d_out, rows * cols * sizeof(float));
-
+    HANDLE_ERROR(cudaMalloc(&d_in, rows * cols * sizeof(float)));
+    HANDLE_ERROR(cudaMalloc(&d_out, rows * cols * sizeof(float)));
     // 拷贝数据到设备
     cudaMemcpy(d_in, h_in, rows * cols * sizeof(float), cudaMemcpyHostToDevice);
 
@@ -58,10 +57,16 @@ int main() {
     cudaMemcpy(h_out, d_out, rows * cols * sizeof(float), cudaMemcpyDeviceToHost);
 
     // 释放资源
-    cudaFree(d_in);
-    cudaFree(d_out);
+    HANDLE_ERROR(cudaFree(d_in));
+    HANDLE_ERROR(cudaFree(d_out));
     free(h_in);
     free(h_out);
 
-    return 0;
+    return true;
+}
+
+
+void run_transpose() {
+    bool result = transpose_matrix();
+    printf("\nSuccess\n");
 }

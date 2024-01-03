@@ -16,6 +16,9 @@ set(SOURCE
         ../src/week01/add1dim.cu
         ../src/week01/add2dim.cu
         ../src/week01/add3dim.cu
+        ../src/week01/transpose.cu
+        ../src/week01/shared.cu
+        ../src/week01/const.cu
 )
 
 add_executable(week01_tests

@@ -7,8 +7,14 @@ set(SOURCES
         add1dim.cu
         add2dim.cu
         add3dim.cu
-        ../../include/week01.h
         transpose.cu
+        shared.cu
+        ../../include/week01.h
+        const.cu
+        event.cu
+        stream.cu
+        streamhostcopy.cu
+        threadfence.cu
 )
 
 # 创建主项目目标
