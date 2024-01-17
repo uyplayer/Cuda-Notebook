@@ -17,6 +17,7 @@
 
 
 
-
+## Unified Memory for CUDA
+[Unified Memory](（https://developer.nvidia.com/blog/unified-memory-cuda-beginners/）)
 
 

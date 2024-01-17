@@ -19,6 +19,8 @@
     - 探究线程索引计算与多维网格配置。
     - 了解核函数的网格和块的参数的上限和限制
 - [x] **内存层次结构探索**：
+    - 了解 1D/2D/3D 
+    - 了解cudaMallocPitch/cudaMalloc3D
     - 线程协作
     - 了解不同内存类型（全局、共享、常量、纹理）及其使用场景。
     - 原子性
@@ -26,6 +28,7 @@
     - 学习 CUDA 内存管理与优化技巧。
     - threadfence
 - [x] **同步和并行执行**：
+    - Unified Memory
     - 了解 CUDA 中的同步机制。
     - 研究如何管理并行执行的线程。
 
@@ -88,7 +91,7 @@
 
 ## 资源
 
-- [CUDA C++ Programming Guide](https://docs.nvidia.com/cuda/cuda-c-programming-guide/contents.html)
+
 - [CUDA C++ Best Practices Guide](https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/index.html)
 - Bruce Fan 的 CUDA 编程资源：[CUDA Programming on GitHub](https://github.com/brucefan1983/CUDA-Programming)
 - NVIDIA CUDA
@@ -98,6 +101,7 @@
 - He Kun 的 CUDA
   编程指南中文翻译：[CUDA Programming Guide in Chinese on GitHub](https://github.com/HeKun-NVIDIA/CUDA-Programming-Guide-in-Chinese)
 - [CUDA by Example Source Code](https://github.com/CodedK/CUDA-by-Example-source-code-for-the-book-s-examples-)
+- [CUDA C++ Programming Guide](https://docs.nvidia.com/cuda/cuda-c-programming-guide/contents.html)
 
 
 ## 配置
