@@ -10,6 +10,7 @@
 #include <cuda.h>
 #include <random>
 #include "cudnn.h"
+#include "GpuTimer.h"
 
 
 
