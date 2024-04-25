@@ -76,9 +76,12 @@ int main() {
     int numBlocks = (N + numThreads - 1) / numThreads;
 
     // add the vectors on the GPU
+    // Kernel calls are asynchronous operation
     vectorAdd<<<numBlocks, numThreads>>>(d_a, d_b, d_c, N);
 
     // copy the result back to the hosts
+    // cudaMemcpy is a synchronous operation
+    // cudaMemcpy acts as both a memcpy and synchronization barrier
     cudaMemcpy(c.data(), d_c, bytes, cudaMemcpyDeviceToHost);
     // verify the result
     verify_result(a, b, c);
@@ -87,8 +90,6 @@ int main() {
     cudaFree(d_a);
     cudaFree(d_b);
     cudaFree(d_c);
-
-
 
     std::cout << "COMPLETED SUCCESSFULLY" << std::endl;
 
