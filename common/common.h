@@ -1,9 +1,0 @@
-
-
-#ifndef CUDA_NOTEBOOK_COMMON_H
-#define CUDA_NOTEBOOK_COMMON_H
-
-
-
-
-#endif

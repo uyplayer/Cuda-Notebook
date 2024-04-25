@@ -18,13 +18,11 @@ message("vcpkg.cmake dir: ${CMAKE_TOOLCHAIN_FILE}")
 message("vcpkg header: ${VCPKG_ROOT}/installed/x64-windows/include")
 
 
-# add common/include/lib/third_party
+
 include_directories(${PROJECT_SOURCE_DIR}/common)
-include_directories(${PROJECT_SOURCE_DIR}/include)
-link_directories(${PROJECT_SOURCE_DIR}/lib)
-link_directories(${PROJECT_SOURCE_DIR}/third_party)
 
 
 
 add_subdirectory(third_party)
+add_subdirectory(src)
 add_subdirectory(tests)
