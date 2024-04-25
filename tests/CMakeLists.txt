@@ -19,16 +19,10 @@ set(SOURCE
         ../src/week01/transpose.cu
         ../src/week01/shared.cu
         ../src/week01/const.cu
+        ../common/error.h
 )
 
-add_executable(week01_tests
-        week01_tests.cu
-        ${SOURCE}
-)
+
 
 # Include Doctest's header files
 include_directories(${doctest_INCLUDE_DIRS})
-
-target_link_libraries(week01_tests PRIVATE
-        Catch2::Catch2WithMain
-)

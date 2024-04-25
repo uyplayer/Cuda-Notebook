@@ -25,9 +25,6 @@ link_directories(${PROJECT_SOURCE_DIR}/lib)
 link_directories(${PROJECT_SOURCE_DIR}/third_party)
 
 
-# add sub dirs
-add_subdirectory(examples)
+
 add_subdirectory(third_party)
 add_subdirectory(tests)
-add_subdirectory(src/check_configuration)
-add_subdirectory(src/week01)
