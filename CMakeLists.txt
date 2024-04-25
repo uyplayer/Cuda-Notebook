@@ -3,8 +3,13 @@ cmake_minimum_required(VERSION 3.18)
 # set project
 project(Cuda-Notebook LANGUAGES C CXX CUDA)
 
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 # cuda architecture
 set(CMAKE_CUDA_ARCHITECTURES 86)
+
 
 
 # config vcpkg ,put vcpkg dir into  system variable environment

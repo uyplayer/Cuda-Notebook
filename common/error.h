@@ -16,16 +16,12 @@
 
 
 #include <cuda_runtime.h>
-
-
+#include <cuda.h>
 
 
 #define HANDLE_ERROR(a) { \
     if (a != cudaSuccess) { \
         printf("%s in %s at line %d\n", cudaGetErrorString(a), __FILE__, __LINE__); \
-        exit(EXIT_FAILURE); \
-    } else if (a == NULL) { \
-        printf("Host memory failed in %s at line %d\n", __FILE__, __LINE__); \
         exit(EXIT_FAILURE); \
     } \
 }
