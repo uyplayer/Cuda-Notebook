@@ -15,7 +15,7 @@
 #include "error.h"
 #include "GpuTimer.h"
 #include <iostream>
-#include <assert.h>
+#include <cassert>
 
 
 __global__ void vectorAdd(int *a, int *b, int *c, int N) {
