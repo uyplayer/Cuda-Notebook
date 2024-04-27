@@ -132,7 +132,7 @@
 ## 3维图
 
 
-<img src="./note/readme.assets/3d_images.jpg" alt="image_description" width="800px" height="800px">
+<img src="./note/readme.assets/3d_images.jpg" alt="image_description" width="1000px" height="800px">
 
 ```angular2html
     int tid = threadIdx.z * blockDim.x * blockDim.y + threadIdx.y * blockDim.x + threadIdx.x;
