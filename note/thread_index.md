@@ -148,3 +148,16 @@ int tid = tid_x + tid_y * gridDim.x * blockDim.x + tid_z * gridDim.x * blockDim.
     - 任意一个thread在grid中的编号为`(blockIdx.x + blockIdx.y * gridDim.x + gridDim.x * gridDim.y * blockIdx.z) * (blockDim.x * blockDim.y * blockDim.z) + (threadIdx.z * (blockDim.x * blockDim.y)) + (threadIdx.y * blockDim.x) + threadIdx.x`。
 
 - 其他的划分方式的索引可以以此类推。
+
+
+
+## 3维图
+
+
+<img src="readme.assets/3d_images.jpg" alt="image_description" width="800px" height="800px">
+
+```angular2html
+    int tid = threadIdx.z * blockDim.x * blockDim.y + threadIdx.y * blockDim.x + threadIdx.x;
+```
+[维度处理相关的连接](https://www3.nd.edu/~zxu2/acms60212-40212-S12/Lec-12-02.pdf)
+
