@@ -92,7 +92,7 @@
 
 ## 资源
 
-
+- [CUDA-Programming](https://github.com/brucefan1983/CUDA-Programming/tree/master)
 - [CUDA C++ Best Practices Guide](https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/index.html)
 - [CUDA_by_practice](https://github.com/eegkno/CUDA_by_practice)
 - Bruce Fan 的 CUDA 编程资源：[CUDA Programming on GitHub](https://github.com/brucefan1983/CUDA-Programming)
@@ -126,4 +126,15 @@
 6. 顶级CMakelists里面配置vcpkg
 7. 顶级CMakelists里面配置vcpkg里面的include头文件
 8. 环境变量配置vcpkg安装的bin目录
+
+
+
+## 3维图
+
+
+<img src="./note/readme.assets/3d_images.jpg" alt="image_description" width="800px" height="800px">
+
+```angular2html
+    int tid = threadIdx.z * blockDim.x * blockDim.y + threadIdx.y * blockDim.x + threadIdx.x;
+```
 
