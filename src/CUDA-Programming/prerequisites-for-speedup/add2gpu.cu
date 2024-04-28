@@ -9,19 +9,15 @@
 #include "error.h"
 
 
-
-void __global__ add2gpu(const double *x, const double *y, double *z, const int N)
-{
+void __global__ add2gpu(const double *x, const double *y, double *z, const int N) {
     const int n = blockDim.x * blockIdx.x + threadIdx.x;
-    if (n < N)
-    {
+    if (n < N) {
         z[n] = x[n] + y[n];
     }
 }
 
 
-
-void add2gpu(){
+void add2gpu() {
     std::cout << "Hello, add2gpu!" << std::endl;
 
     constexpr int N = 1 << 20;
@@ -34,8 +30,7 @@ void add2gpu(){
     h_y = new double[N];
     h_z = new double[N];
 
-    for (int n = 0; n < N; ++n)
-    {
+    for (int n = 0; n < N; ++n) {
         h_x[n] = rand() % 100;
         h_y[n] = rand() % 100;
     }
@@ -49,7 +44,7 @@ void add2gpu(){
     CHECK(cudaMalloc(&d_z, size));
 
 
-    cudaEvent_t  start, stop;
+    cudaEvent_t start, stop;
     CHECK(cudaEventCreate(&start));
     CHECK(cudaEventCreate(&stop));
     CHECK(cudaEventRecord(start));
@@ -102,7 +97,9 @@ void add2gpu(){
     std::cout << "Elapsed time: " << elapsed_time << "ms" << std::endl;
 
     // free
-    delete[]  h_x,h_y,h_z;
+    delete[] h_x;
+    delete[] h_y;
+    delete[] h_z;
     cudaFree(d_x);
     cudaFree(d_y);
     cudaFree(d_z);
