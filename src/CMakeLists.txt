@@ -13,5 +13,6 @@
 
 
 
-add_subdirectory(vector_addition)
-add_subdirectory(matrix_mul)
+add_subdirectory(CUDA-Programming/thread-organization)
+add_subdirectory(CUDA-Programming/basic-framework)
+
