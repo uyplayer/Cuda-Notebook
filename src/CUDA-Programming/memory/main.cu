@@ -1,21 +1,10 @@
-
-
 //
 // Created by uyplayer on 2024/4/28.
 //
 
-
-
 #include <iostream>
 #include <error.h>
 #include <GpuTimer.h>
-
-
-
-
-
-
-
 
 int main(int argc, char *argv[]){
     std::cout << "Hello memory" << std::endl;
@@ -27,36 +16,20 @@ int main(int argc, char *argv[]){
     cudaDeviceProp prop;
     CHECK(cudaGetDeviceProperties(&prop, device_id));
 
-    printf("Device id:                                 %d\n",
-           device_id);
-    printf("Device name:                               %s\n",
-           prop.name);
-    printf("Compute capability:                        %d.%d\n",
-           prop.major, prop.minor);
-    printf("Amount of global memory:                   %g GB\n",
-           prop.totalGlobalMem / (1024.0 * 1024 * 1024));
-    printf("Amount of constant memory:                 %g KB\n",
-           prop.totalConstMem  / 1024.0);
-    printf("Maximum grid size:                         %d %d %d\n",
-           prop.maxGridSize[0],
-           prop.maxGridSize[1], prop.maxGridSize[2]);
-    printf("Maximum block size:                        %d %d %d\n",
-           prop.maxThreadsDim[0], prop.maxThreadsDim[1],
-           prop.maxThreadsDim[2]);
-    printf("Number of SMs:                             %d\n",
-           prop.multiProcessorCount);
-    printf("Maximum amount of shared memory per block: %g KB\n",
-           prop.sharedMemPerBlock / 1024.0);
-    printf("Maximum amount of shared memory per SM:    %g KB\n",
-           prop.sharedMemPerMultiprocessor / 1024.0);
-    printf("Maximum number of registers per block:     %d K\n",
-           prop.regsPerBlock / 1024);
-    printf("Maximum number of registers per SM:        %d K\n",
-           prop.regsPerMultiprocessor / 1024);
-    printf("Maximum number of threads per block:       %d\n",
-           prop.maxThreadsPerBlock);
-    printf("Maximum number of threads per SM:          %d\n",
-           prop.maxThreadsPerMultiProcessor);
+    std::cout << "Device id:                                 " << device_id << "\n";
+    std::cout << "Device name:                               " << prop.name << "\n";
+    std::cout << "Compute capability:                        " << prop.major << "." << prop.minor << "\n";
+    std::cout << "Amount of global memory:                   " << prop.totalGlobalMem / (1024.0 * 1024 * 1024) << " GB\n";
+    std::cout << "Amount of constant memory:                 " << prop.totalConstMem  / 1024.0 << " KB\n";
+    std::cout << "Maximum grid size:                         " << prop.maxGridSize[0] << " " << prop.maxGridSize[1] << " " << prop.maxGridSize[2] << "\n";
+    std::cout << "Maximum block size:                        " << prop.maxThreadsDim[0] << " " << prop.maxThreadsDim[1] << " " << prop.maxThreadsDim[2] << "\n";
+    std::cout << "Number of SMs:                             " << prop.multiProcessorCount << "\n";
+    std::cout << "Maximum amount of shared memory per block: " << prop.sharedMemPerBlock / 1024.0 << " KB\n";
+    std::cout << "Maximum amount of shared memory per SM:    " << prop.sharedMemPerMultiprocessor / 1024.0 << " KB\n";
+    std::cout << "Maximum number of registers per block:     " << prop.regsPerBlock / 1024 << " K\n";
+    std::cout << "Maximum number of registers per SM:        " << prop.regsPerMultiprocessor / 1024 << " K\n";
+    std::cout << "Maximum number of threads per block:       " << prop.maxThreadsPerBlock << "\n";
+    std::cout << "Maximum number of threads per SM:          " << prop.maxThreadsPerMultiProcessor << "\n";
 
     return 0;
 }
