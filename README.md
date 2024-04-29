@@ -105,6 +105,10 @@
 - [CUDA by Example Source Code](https://github.com/CodedK/CUDA-by-Example-source-code-for-the-book-s-examples-)
 - [CUDA C++ Programming Guide](https://docs.nvidia.com/cuda/cuda-c-programming-guide/contents.html)
 
+## 高级资源
+
+- [professional-cuda-c-programming](https://github.com/deeperlearning/professional-cuda-c-programming/tree/master)
+- [CUDA-Learn-Notes](https://github.com/DefTruth/CUDA-Learn-Notes)
 
 ## 配置
 
@@ -137,4 +141,5 @@
 ```angular2html
     int tid = threadIdx.z * blockDim.x * blockDim.y + threadIdx.y * blockDim.x + threadIdx.x;
 ```
+
 

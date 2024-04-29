@@ -13,3 +13,8 @@ add_subdirectory(CUDA-Programming/shared-memory)
 add_subdirectory (CUDA-Programming/atomic)
 add_subdirectory(CUDA-Programming/warp)
 add_subdirectory(CUDA-Programming/stream)
+
+
+
+# professional-cuda-programming
+add_subdirectory(professional-cuda-programming)
