@@ -23,87 +23,92 @@ typedef float real;
 #endif
 
 
-constexpr int NUM_REPEATS = 10;
-constexpr int TILE_DIM = 32;
+
+/*
+ 为了确保并行线程协作时获得正确的结果，我们必须同步线程。CUDA 提供了一个简单的屏障同步原语，
+ __syncthreads()。线程的执行只能__syncthreads()在其块中的所有线程都执行完之后才能继续进行__syncthreads()。
+ 因此，我们可以通过在将存储到共享内存之后和任何线程从共享内存加载之前调用来避免上述竞争条件__syncthreads()。
+ 重要的是要注意，__syncthreads()在不同的代码中调用是未定义的，并且可能导致死锁——线程块中的所有线程必须__syncthreads()在同一点调用。
+*/
+
+__global__ void staticReverse(int *d,int n){
+    __shared__ int s[64];
+    int t = threadIdx.x;
+    int tr = n-t-1;
+    s[t] = d[t];
+    __syncthreads();
+    d[t] = s[tr];
+};
+
+
+__global__ void dynamicReverse(int *d, int n)
+{
+    extern __shared__ int s[];
+    int t = threadIdx.x;
+    int tr = n-t-1;
+    s[t] = d[t];
+    __syncthreads();
+    d[t] = s[tr];
+}
+
 
 
 int main(int argc, char **argv) {
     std::cout << "Hello shared-memory" << std::endl;
 
-    constexpr int N = 1 << 10;
-    constexpr int N2 = N * N;
-    constexpr int M = sizeof(real) * N2;
+    constexpr int n =  64;
+
+    const int size = n * sizeof(real);
 
 
-    real *h_A = new real[M];
-    real *h_B = new real[M];
+    real *a = new real[n];
+    real *b = new real[n];
+    real *c = new real[n];
 
-    for (int n = 0; n < N2; ++n) {
-        h_A[n] = n;
+
+    // Initialize memory
+    for (int i = 0; i < n; i++) {
+        a[i] = i;
+        b[i] = n-i-1;
+        c[i] = 0;
     }
 
-    real *d_A, *d_B;
-    CHECK(cudaMalloc(&d_A, M));
-    CHECK(cudaMalloc(&d_B, M));
-    CHECK(cudaMemcpy(d_A, h_A, M, cudaMemcpyHostToDevice));
 
+    int *d_d;
+    CHECK(cudaMalloc(&d_d, size));
+    CHECK(cudaMemcpy(d_d, a, size, cudaMemcpyHostToDevice));
+
+    staticReverse<<<1, 64>>>(d_d, n);
+    cudaMemcpy(c, d_d, n*sizeof(int), cudaMemcpyDeviceToHost);
+
+    for (int i = 0; i < n; i++) {
+        if (c[i] != b[i])
+            std::cout << "Error: d[" << i << "]!=r[" << i << "] (" << c[i] << ", " << b[i] << ")\n";
+    }
+
+
+
+    CHECK(cudaMemcpy(d_d, a, n*sizeof(int), cudaMemcpyHostToDevice););
+    dynamicReverse<<<1,n,n*sizeof(int)>>>(d_d, n);
+    CHECK(cudaMemcpy(c, d_d, n * sizeof(int), cudaMemcpyDeviceToHost));
+    for (int i = 0; i < n; i++)
+        if (c[i] != b[i])
+            std::cout << "Error: d[" << i << "]!=r[" << i << "] (" << c[i] << ", " << b[i] << ")\n";
 
     return 0;
 }
 
-void timing(const real *d_A, real *d_B, const int N, const int task) {
-    const int grid_size_x = (N + TILE_DIM - 1) / TILE_DIM;
-    const int grid_size_y = grid_size_x;
-
-    const dim3 block_size(TILE_DIM, TILE_DIM);
-    const dim3 grid_size(grid_size_x, grid_size_y);
-
-    float t_sum = 0;
-    float t2_sum = 0;
-
-    for (int repeat = 0; repeat <= NUM_REPEATS; ++repeat) {
-        cudaEvent_t start, stop;
-        CHECK(cudaEventCreate(&start));
-        CHECK(cudaEventCreate(&stop));
-        CHECK(cudaEventRecord(start));
-        cudaEventQuery(start);
-
-        switch (task) {
-
-            case 1:
-                std::cout << "case 1" << std::endl;
-            case 2:
-                std::cout << "case 2" << std::endl;
-            case 3:
-                std::cout << "case 3" << std::endl;
-            case 4:
-                std::cout << "case 4" << std::endl;
-
-        }
-        CHECK(cudaEventRecord(stop));
-        CHECK(cudaEventSynchronize(stop));
-        float elapsed_time;
-        CHECK(cudaEventElapsedTime(&elapsed_time, start, stop));
-        printf("Time = %g ms.\n", elapsed_time);\
-        std::cout << "Time = " << elapsed_time << " %g ms." << std::endl;
 
 
-        if (repeat > 0) {
-            t_sum += elapsed_time;
-            t2_sum += elapsed_time * elapsed_time;
-        }
+__global__ void reverse_dynamic(int nI, int nF, int nC)
+{
+    extern __shared__ int s[];
+    int *integerData = (int*)s;
+    float *floatData = (float*)(s + nI * sizeof(int)); // 浮点数数组的起始地址
+    char *charData = (char*)(s + nI * sizeof(int) + nF * sizeof(float)); // 字符数组的起始地址
 
-        CHECK(cudaEventDestroy(start));
-        CHECK(cudaEventDestroy(stop));
 
-
-    }
-
-    const float t_ave = t_sum / NUM_REPEATS;
-    const float t_err = sqrt(t2_sum / NUM_REPEATS - t_ave * t_ave);
-    std::cout << "Time = " << std::fixed << std::setprecision(2) << t_ave << " +- " << t_err << " ms." << std::endl;
+//    myKernel<<<gridSize, blockSize, nI * sizeof(int) + nF * sizeof(float) + nC * sizeof(char)>>>(nI, nF, nC);
 
 }
-
-
 
