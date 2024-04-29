@@ -1,27 +1,16 @@
-
-
-
-
-
-
-
 set(
         source_files
         main.cu
         checkDeviceInfor.cu
         checkDimension.cu
         checkThreadIndex.cu
-
-
+        defineGridBlock.cu
+        sumArraysOnGPU-small-case.cu
+        sumArraysOnGPU_timer.cu
+        sumArraysOnHost.cu
+        sumMatrixOnGPU_1D_grid_1D_block.cu
 )
 
+include_directories(${PROJECT_SOURCE_DIR}/common)
 
-set(
-        common_files
-        ../../../common/error.h
-        ../../../common/GpuTimer.h
-
-)
-
-
-add_executable(examples ${source_files} ${common_files})
+add_executable(examples ${source_files})

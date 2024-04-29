@@ -23,9 +23,7 @@ message("vcpkg.cmake dir: ${CMAKE_TOOLCHAIN_FILE}")
 message("vcpkg header: ${VCPKG_ROOT}/installed/x64-windows/include")
 
 
-
 include_directories(${PROJECT_SOURCE_DIR}/common)
-
 
 
 add_subdirectory(third_party)
