@@ -9,6 +9,7 @@ set(
         source_files
         main.cu
         checkDeviceInfor.cu
+        checkDimension.cu
 
 
 )

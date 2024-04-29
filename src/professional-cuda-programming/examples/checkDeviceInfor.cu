@@ -26,7 +26,6 @@ void checkDeviceInfor() {
     for (int i = 0; i < deviceCount; ++i) {
         cudaDeviceProp deviceProp{};
         CHECK(cudaGetDeviceProperties(&deviceProp, i));
-
         std::cout << "Device " << i << ": " << deviceProp.name << std::endl;
         std::cout << "  Total amount of global memory: " << deviceProp.totalGlobalMem << std::endl;
         std::cout << "  Total amount of constant memory: " << deviceProp.totalConstMem << std::endl;

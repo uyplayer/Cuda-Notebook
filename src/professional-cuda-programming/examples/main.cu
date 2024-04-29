@@ -12,12 +12,13 @@
 
 
 extern void checkDeviceInfor();
+extern void checkDimension();
 
 
 int main() {
     std::cout << "Hello, CUDA!\n";
 
-    checkDeviceInfor();
-
+//    checkDeviceInfor();
+    checkDimension();
     return 0;
 }
