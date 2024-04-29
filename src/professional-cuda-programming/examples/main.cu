@@ -13,12 +13,13 @@
 
 extern void checkDeviceInfor();
 extern void checkDimension();
-
+extern void checkThreadIndex();
 
 int main() {
     std::cout << "Hello, CUDA!\n";
 
 //    checkDeviceInfor();
-    checkDimension();
+//    checkDimension();
+    checkThreadIndex();
     return 0;
 }

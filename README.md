@@ -142,4 +142,4 @@
     int tid = threadIdx.z * blockDim.x * blockDim.y + threadIdx.y * blockDim.x + threadIdx.x;
 ```
 
-
+[维度处理相关的连接](https://www3.nd.edu/~zxu2/acms60212-40212-S12/Lec-12-02.pdf)

@@ -10,6 +10,7 @@ set(
         main.cu
         checkDeviceInfor.cu
         checkDimension.cu
+        checkThreadIndex.cu
 
 
 )
