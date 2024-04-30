@@ -1,8 +1,8 @@
 /*
  * @Author: uyplayer
- * @Date: 2024/4/29 19:53
+ * @Date: 2024/4/29 18:40
  * @Email: uyplayer@qq.com
- * @File: sumArraysOnGPU_timer.cu
+ * @File: sumArraysOnGPU-small-case.cu
  * @Software: CLion
  * @Dir: Cuda-Notebook / src/professional-cuda-programming/examples
  * @Project_Name: Cuda-Notebook
@@ -13,69 +13,64 @@
 #include <iostream>
 #include <cuda_runtime.h>
 #include "error.h"
-#include <GpuTimer.h>
-#include <Initializer.h>
+#include "GpuTimer.h"
 
 
-__global__ void sumArraysOnGPU(float *A, float *B, float *C, const int N) {
-    int i = blockIdx.x * blockDim.x + threadIdx.x;
 
-    if (i < N) C[i] = A[i] + B[i];
-}
+void initialData(float *ip, int size) {
 
+    time_t t;
+    srand((unsigned) time(&t));
 
-void sumArraysOnHost(float *A, float *B, float *C, const int N) {
-
-    for (int idx = 0; idx < N; idx++) {
-        C[idx] = A[idx] + B[idx];
+    for (int i = 0; i < size; i++) {
+        ip[i] = (float) (rand() & 0xFF) / 10.0f;
     }
 
 }
 
 
-void sumArraysOnGPU_timer() {
+void sumArraysOnHost(float *A, float *B, float *C, const int N) {
+    for (int idx = 0; idx < N; idx++) {
+        C[idx] = A[idx] + B[idx];
+    }
+}
 
-    std::cout << "Sum Arrays On GPU Timer" << std::endl;
+
+__global__ void sumArraysOnGPU(float *A, float *B, float *C, const int N) {
+    int i = blockIdx.x * blockDim.x + threadIdx.x;
+    if (i < N) {
+        C[i] = A[i] + B[i];
+    }
+}
 
 
-    int dev{0};
-    cudaDeviceProp deviceProp{};
-    CHECK(cudaGetDeviceProperties(&deviceProp, dev));
-    std::cout << "Using Device " << dev << ": " << deviceProp.name << std::endl;
+void sumArraysOnGPU_small_case() {
+
+    std::cout << "sumArraysOnGPU_small_case" << std::endl;
+
+    int dev = 0;
     CHECK(cudaSetDevice(dev));
 
-    int nElem = 1 << 24;
+    int nElem = 1 << 10;
     std::cout << "Vector size " << nElem << std::endl;
-
-    // malloc host memory
     size_t nBytes = nElem * sizeof(float);
-
+    std::cout << "nBytes size " << nBytes << " bytes" << std::endl;
 
     float *h_A, *h_B, *hostRef, *gpuRef;
     h_A = new float[nElem];
     h_B = new float[nElem];
-
-    hostRef = (float *) malloc(nBytes);
-    gpuRef = (float *) malloc(nBytes);
-
-    double iStart, iElaps;
+    hostRef = new float[nElem];
+    gpuRef = new float[nElem];
 
     // initialize data at host side
-    iStart = seconds();
-
     initialData(h_A, nElem);
     initialData(h_B, nElem);
-    iElaps = seconds() - iStart;
-    std::cout << "initialData Time elapsed " << iElaps << " sec" << std::endl;
+
     memset(hostRef, 0, nBytes);
     memset(gpuRef, 0, nBytes);
 
-    // add vector at host side for result checks
-    iStart = seconds();
-    sumArraysOnHost(h_A, h_B, hostRef, nElem);
-    iElaps = seconds() - iStart;
-    std::cout << "sumArraysOnHost Time elapsed " << iElaps << " sec" << std::endl;
 
+    // malloc device global memory
     float *d_A, *d_B, *d_C;
     CHECK(cudaMalloc((float **) &d_A, nBytes));
     CHECK(cudaMalloc((float **) &d_B, nBytes));
@@ -84,27 +79,20 @@ void sumArraysOnGPU_timer() {
     // transfer data from host to device
     CHECK(cudaMemcpy(d_A, h_A, nBytes, cudaMemcpyHostToDevice));
     CHECK(cudaMemcpy(d_B, h_B, nBytes, cudaMemcpyHostToDevice));
-    CHECK(cudaMemcpy(d_C, gpuRef, nBytes, cudaMemcpyHostToDevice));
+
+    // invoke kernel at host side
+    dim3 block(nElem);
+    dim3 grid(1);
 
 
-    int iLen = 512;
-    dim3 block(iLen);
-    dim3 grid((nElem + block.x - 1) / block.x);
-
-    iStart = seconds();
-    // kernel
     sumArraysOnGPU<<<grid, block>>>(d_A, d_B, d_C, nElem);
-
-    CHECK(cudaDeviceSynchronize());
-    iElaps = seconds() - iStart;
-    printf("sumArraysOnGPU <<<  %d, %d  >>>  Time elapsed %f sec\n", grid.x,
-           block.x, iElaps);
-
-    // check kernel error
-    CHECK(cudaGetLastError());
+    printf("Execution configure <<<%d, %d>>>\n", grid.x, block.x);
 
     // copy kernel result back to host side
     CHECK(cudaMemcpy(gpuRef, d_C, nBytes, cudaMemcpyDeviceToHost));
+
+    // add vector at host side for result checks
+    sumArraysOnHost(h_A, h_B, hostRef, nElem);
 
     // check device results
     checkResult(hostRef, gpuRef, nElem);
@@ -119,5 +107,8 @@ void sumArraysOnGPU_timer() {
     free(h_B);
     free(hostRef);
     free(gpuRef);
+
+    CHECK(cudaDeviceReset());
+
 
 }

@@ -23,7 +23,7 @@ extern void sumArraysOnGPU_small_case();
 extern void sumArraysOnGPU_timer();
 
 int main() {
-    std::cout << "Hello, CUDA!\n";
+    std::cout << "Hello, chapter02!\n";
 
 //    checkDeviceInfor();
 //    checkDimension();

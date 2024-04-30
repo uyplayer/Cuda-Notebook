@@ -12,7 +12,7 @@
 
 
 #include <iostream>
-#include <Initializer.h>
+#include "Initializer.h"
 
 void sumArraysOnHost(float *A, float *B, float *C, const int N)
 {
