@@ -5,6 +5,7 @@
 #define CUDA_NOTEBOOK_BASE_H
 
 #include <iostream>
+#include <opencv2/core/mat.hpp>
 
 class Base {
 public:
@@ -19,6 +20,7 @@ public:
 private:
 
 protected:
+    cv::Mat image_data;
     std::string image_path;
     int image_width;
     int image_height;

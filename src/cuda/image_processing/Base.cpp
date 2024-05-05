@@ -13,6 +13,7 @@ Base::Base(std::string image_path) : image_path(std::move(image_path)) {
     if (image.empty()) {
         throw std::runtime_error("无法读出图片");
     }
+    image_data = image;
     image_width = image.cols;
     image_height = image.rows;
     image_channels = image.channels();
