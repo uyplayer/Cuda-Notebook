@@ -15,12 +15,13 @@
 #include "image_processing.cuh"
 
 
+
 extern void image_blur(ImageFilter);
 
 
 int main(){
 
     std::cout << "Hello image_processing" << std::endl;
-//    image_blur(AVERAGE);
+    image_blur(AVERAGE);
     return 0;
 }

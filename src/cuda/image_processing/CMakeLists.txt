@@ -1,8 +1,7 @@
 
 
 find_package(cJSON CONFIG REQUIRED)
-
-find_package(cJSON)
+find_package(OpenCV CONFIG REQUIRED)
 
 set(source_files
         main.cpp
