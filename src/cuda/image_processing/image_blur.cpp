@@ -17,8 +17,15 @@ void ImageBlur::average(int kernel_size) {
     if (kernel_size % 2 == 0) {
         kernel_size++;
     }
-    auto data  = image_data.data;
-
+    auto data = image_data.data;
+    for (int i = 0; i < image_data.rows; ++i) {
+        for (int j = 0; j < image_data.cols; ++j) {
+            for (int k = 0; k < image_data.channels(); ++k) {
+                auto elem = static_cast<float>(data[i * image_data.cols * image_data.channels() + j * image_data.channels() + k]);
+                std::cout << elem << " ";
+            }
+        }
+    }
 }
 
 

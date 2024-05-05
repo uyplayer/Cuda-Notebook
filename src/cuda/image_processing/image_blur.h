@@ -14,10 +14,6 @@
 
 class ImageBlur : public Base {
 
-    explicit ImageBlur(const std::string &image_path);
-
-    ~ImageBlur() = default;
-
 public:
     void average(int kernel_size = 5);
 
@@ -30,6 +26,9 @@ public:
     void unsharp_mask();
 
 
+    explicit ImageBlur(const std::string &image_path);
+
+    ~ImageBlur() = default;
 };
 
 #endif //CUDA_NOTEBOOK_IMAGE_BLUR_H
