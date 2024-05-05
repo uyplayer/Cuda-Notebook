@@ -50,3 +50,5 @@ void ImageBlur::unsharp_mask() {
     cv::addWeighted(image, 1.5, result, -0.5, 0, result);
     cv::imwrite("unsharp_mask.jpg", result);
 }
+
+
