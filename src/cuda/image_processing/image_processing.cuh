@@ -1,10 +1,7 @@
-
-
-
-
 #ifndef CUDA_NOTEBOOK_IMAGE_PROCESSING_CUH
 #define CUDA_NOTEBOOK_IMAGE_PROCESSING_CUH
 
+#include <opencv2/opencv.hpp>
 // 滤波器
 enum ImageFilter {
     AVERAGE,      // 平均滤波器
@@ -16,7 +13,6 @@ enum ImageFilter {
 };
 
 
-void image_blur_average();
 
 
 
