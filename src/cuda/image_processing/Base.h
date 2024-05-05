@@ -17,9 +17,12 @@ public:
     static void check_opencv_package();
 
 private:
+
+protected:
     std::string image_path;
-
-
+    int image_width;
+    int image_height;
+    int image_channels;
 };
 
 
