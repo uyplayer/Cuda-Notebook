@@ -64,7 +64,20 @@
 #### 第一步
 
 ```bash 
-安装 Visual Studio ，保持 Clion 的其他配置默认
+安装 Visual Studio ,保持 Clion 的其他配置默认
+```
+
+```angular2html
+clion 安装 conan 插件
+```
+
+#### 第二步
+
+```angular2html
+下载 cmake-conan
+https://github.com/conan-io/cmake-conan.git
+配置
+-DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=[path-to-cmake-conan]/conan_provider.cmake
 ```
 
 配置 Build：

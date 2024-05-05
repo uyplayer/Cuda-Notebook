@@ -1,31 +1,19 @@
 cmake_minimum_required(VERSION 3.18)
 
-# set project
+
+# Set project
 project(Cuda-Notebook LANGUAGES C CXX CUDA)
 
-# c++ 20
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-# cuda architecture
+# Set CUDA architecture
 set(CMAKE_CUDA_ARCHITECTURES 86)
 
+set(CMAKE_CUDA_COMPILER "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.1/bin/nvcc.exe")
+
+# test conan package manager
+#find_package(cJSON)
+#add_executable(Cuda-Notebook main.cpp)
+#target_link_libraries(Cuda-Notebook cjson::cjson)
 
 
-# config vcpkg ,put vcpkg dir into  system variable environment
-set(VCPKG_ROOT "$ENV{vcpkg_root_dir}")
-# vcpkg toolchain
-SET(CMAKE_TOOLCHAIN_FILE "${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
-# vcpkg installed library header file location
-include_directories("${VCPKG_ROOT}/installed/x64-windows/include")
-message("vcpkg_DIR: ${VCPKG_ROOT}")
-message("vcpkg.cmake dir: ${CMAKE_TOOLCHAIN_FILE}")
-message("vcpkg header: ${VCPKG_ROOT}/installed/x64-windows/include")
 
-
-include_directories(${PROJECT_SOURCE_DIR}/common)
-
-
-add_subdirectory(third_party)
-add_subdirectory(src)
-add_subdirectory(tests)
+add_subdirectory(src/cuda/image_processing)
