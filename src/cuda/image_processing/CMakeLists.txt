@@ -1,12 +1,7 @@
 
 
+find_package(cJSON CONFIG REQUIRED)
 
-
-
-include_directories(../../../common)
-
-
-find_package(OpenCV REQUIRED)
 find_package(cJSON)
 
 set(source_files
@@ -15,8 +10,6 @@ set(source_files
         image_blur.cu
 )
 
-
-
 add_executable(image_processing ${source_files})
-
-target_link_libraries(image_processing  cjson::cjson)
+target_include_directories(image_processing PRIVATE ../../../common)
+target_link_libraries(image_processing PRIVATE cjson)

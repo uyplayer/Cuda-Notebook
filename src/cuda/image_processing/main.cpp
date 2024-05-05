@@ -20,7 +20,7 @@ extern void image_blur(ImageFilter);
 
 int main(){
 
-    std::cout << "Hello Cuda" << std::endl;
-    image_blur(AVERAGE);
+    std::cout << "Hello image_processing" << std::endl;
+//    image_blur(AVERAGE);
     return 0;
 }

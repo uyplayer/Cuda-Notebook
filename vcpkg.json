@@ -1,0 +1,10 @@
+{
+  "name" : "cuda-notebook",
+  "version-string" : "1.0.0",
+  "builtin-baseline" : "326d8b43e365352ba3ccadf388d989082fe0f2a6",
+  "dependencies" : [ {
+    "name" : "cjson",
+    "version>=" : "1.7.17",
+    "$comment" : "  # this is heuristically generated, and may not be correct\n\n  find_package(cJSON CONFIG REQUIRED)\n\n  target_link_libraries(main PRIVATE cjson)\n"
+  } ]
+}

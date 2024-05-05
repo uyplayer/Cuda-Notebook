@@ -57,39 +57,11 @@
 - [professional-cuda-c-programming](https://github.com/deeperlearning/professional-cuda-c-programming/tree/master)
 - [CUDA-Learn-Notes](https://github.com/DefTruth/CUDA-Learn-Notes)
 
+
 ## 配置
-
-### Clion Windows
-
-#### 第一步
-
-```bash 
-安装 Visual Studio ,保持 Clion 的其他配置默认
-```
-
 ```angular2html
-clion 安装 conan 插件
+- 安装Clion编辑器
+- 安装vpkg插件
+- 本地安装vcpkg
+- 插件配置本地安装vcpkg
 ```
-
-#### 第二步
-
-```angular2html
-下载 cmake-conan
-https://github.com/conan-io/cmake-conan.git
-配置
--DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=[path-to-cmake-conan]/conan_provider.cmake
-```
-
-配置 Build：
-
-1. 点击 Clion 中的 Edit Configurations。
-2. 添加 target/executable。
-3. 确保配置包含 CUDA 相关的选项，如指定正确的 CUDA 工具链、设置合适的编译器和链接器选项。
-4. 安装vcpkg
-5. 通过vcpkg安装你想要的第三方库
-6. 顶级CMakelists里面配置vcpkg
-7. 顶级CMakelists里面配置vcpkg里面的include头文件
-8. 环境变量配置vcpkg安装的bin目录
-
-
-
