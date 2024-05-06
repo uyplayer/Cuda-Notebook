@@ -18,7 +18,7 @@ public:
     explicit ImageBlur(const std::string &image_path);
 
     void gaussian_kernel(int kernel_size = 5);
-    void median();
+    void median_kernel();
 
     void laplacian();
 
