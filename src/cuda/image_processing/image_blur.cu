@@ -22,6 +22,7 @@ void ImageBlur::average(int kernel_size) {
     const int rows = image_data.rows;
     const int cols = image_data.cols;
 
+    std::cout << "Image elem count: " << rows  * cols << std::endl;
 
     // cuda data type uchar3
     uchar3 *d_input, *d_output;

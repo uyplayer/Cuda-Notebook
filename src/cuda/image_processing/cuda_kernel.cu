@@ -6,6 +6,7 @@
 
 #include "cuda_kernel.cuh"
 
+
 __global__ void imageBlurAverageKernel(const uchar3 *input, uchar3 *output, int rows, int cols, int kernel) {
     int x = blockIdx.x * blockDim.x + threadIdx.x;
     int y = blockIdx.y * blockDim.y + threadIdx.y;
@@ -41,9 +42,6 @@ __global__ void imageBlurAverageKernel(const uchar3 *input, uchar3 *output, int 
             output[x * cols + y].x = red / count;
             output[x * cols + y].y = green / count;
             output[x * cols + y].z = blue / count;
-        } else {
-            // 如果核心中没有有效像素，则将输出设置为黑色
-            output[x * cols + y] = make_uchar3(0, 0, 0);
         }
     }
 }
