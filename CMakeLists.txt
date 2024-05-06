@@ -19,8 +19,8 @@ message(STATUS "VCPKG_ROOT_DIR: ${VCPKG_ROOT_DIR}")
 
 set(CMAKE_TOOLCHAIN_FILE "${VCPKG_ROOT_DIR}/scripts/buildsystems/vcpkg.cmake")
 
-find_package(CUDA REQUIRED)
-enable_language(CUDA)
+#find_package(CUDA REQUIRED)
+#enable_language(CUDA)
 
 message(STATUS "CUDA Version: ${CUDA_VERSION}")
 message(STATUS "CUDA_INCLUDE_DIRS: ${CUDA_INCLUDE_DIRS}")
