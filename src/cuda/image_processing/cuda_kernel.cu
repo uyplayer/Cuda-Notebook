@@ -6,12 +6,11 @@
 
 #include "cuda_kernel.cuh"
 
-
 __global__ void imageBlurAverageKernel(const uchar3 *input, uchar3 *output, int rows, int cols, int kernel) {
     int x = blockIdx.x * blockDim.x + threadIdx.x;
     int y = blockIdx.y * blockDim.y + threadIdx.y;
 
-    if (x < rows && y < cols) {
+    if (x <= rows && y <= cols) {
         int red = 0;
         int green = 0;
         int blue = 0;
