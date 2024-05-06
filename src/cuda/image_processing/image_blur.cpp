@@ -29,10 +29,9 @@ void ImageBlur::average(int kernel_size) {
     // cuda data copy
     cudaMemcpy(d_input, image_data.ptr<uchar3>(), rows * cols * sizeof(uchar3), cudaMemcpyHostToDevice);
 
-
-
-
-
+    // set grid and  block size
+    dim3 block(32, 32);
+    dim3 grid((cols + block.x - 1) / block.x, (rows + block.y - 1) / block.y);
 
 
 
