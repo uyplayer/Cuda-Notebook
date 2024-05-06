@@ -5,10 +5,8 @@
 //
 
 #include "cuda_kernel.cuh"
-#include <thrust/device_vector.h>
-#include <thrust/sort.h>
-#include <opencv2/core/hal/interface.h>
-#include <cub/cub.cuh>
+
+
 
 
 __global__ void imageBlurGaussianKernel(const uchar3 *input, uchar3 *output, int rows, int cols, int kernel) {
