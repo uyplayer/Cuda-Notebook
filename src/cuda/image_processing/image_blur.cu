@@ -14,7 +14,7 @@ ImageBlur::ImageBlur(const std::string &image_path) : Base(
 }
 
 
-void ImageBlur::average(int kernel_size) {
+void ImageBlur::gaussian_kernel(int kernel_size) {
     if (kernel_size % 2 == 0) {
         kernel_size++;
     }
@@ -35,7 +35,7 @@ void ImageBlur::average(int kernel_size) {
     dim3 block(32, 32);
     dim3 grid((cols + block.x - 1) / block.x, (rows + block.y - 1) / block.y);
 
-    imageBlurAverageKernel<<<grid, block>>>(d_input, d_output, rows, cols, kernel_size);
+    imageBlurGaussianKernel<<<grid, block>>>(d_input, d_output, rows, cols, kernel_size);
 
 
     uchar3 *h_output = new uchar3[rows * cols];

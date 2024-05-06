@@ -10,8 +10,8 @@
 
 #include <cuda_runtime.h>
 
-__global__ void imageBlurAverageKernel(const uchar3* input, uchar3* output, int rows, int cols, int kernel);
-
+__global__ void imageBlurGaussianKernel(const uchar3* input, uchar3* output, int rows, int cols, int kernel);
+__global__ void imageBlurMedianKernel(const uchar3* input, uchar3* output, int rows, int cols, int kernel);
 
 
 

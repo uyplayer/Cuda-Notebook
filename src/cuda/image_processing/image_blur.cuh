@@ -17,10 +17,7 @@ class ImageBlur : public Base {
 public:
     explicit ImageBlur(const std::string &image_path);
 
-    void average(int kernel_size = 5);
-
-    void gaussian();
-
+    void gaussian_kernel(int kernel_size = 5);
     void median();
 
     void laplacian();

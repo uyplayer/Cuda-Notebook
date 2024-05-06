@@ -14,7 +14,7 @@ int main(){
     std::string image_path = "src/cuda/image_processing/resource/woman.jpg";
 
     ImageBlur image_blur{image_path};
-    image_blur.average(5);
+    image_blur.gaussian_kernel(5);
 
     return 0;
 }
