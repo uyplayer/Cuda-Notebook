@@ -89,9 +89,9 @@ cv::Mat ImageBlur::assembleImage(const uchar3 *data, int rows, int cols) {
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
             int index = i * cols + j;
-            result.at<cv::Vec3b>(i, j)[0] = data[index].x; // Blue
-            result.at<cv::Vec3b>(i, j)[1] = data[index].y; // Green
-            result.at<cv::Vec3b>(i, j)[2] = data[index].z; // Red
+            result.at<cv::Vec3b>(i, j)[0] = data[index].x;
+            result.at<cv::Vec3b>(i, j)[1] = data[index].y;
+            result.at<cv::Vec3b>(i, j)[2] = data[index].z;
         }
     }
 
