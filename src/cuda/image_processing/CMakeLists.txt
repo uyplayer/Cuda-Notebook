@@ -13,8 +13,9 @@ set(source_files
         main.cpp
         image_processing.cuh
         Base.cpp
-        image_blur.cpp
+        image_blur.cu
         cuda_kernel.cu
+
 )
 
 add_executable(image_processing ${source_files})

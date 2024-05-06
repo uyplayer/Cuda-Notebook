@@ -1,8 +1,8 @@
 
 
 
-#ifndef CUDA_NOTEBOOK_IMAGE_BLUR_H
-#define CUDA_NOTEBOOK_IMAGE_BLUR_H
+#ifndef CUDA_NOTEBOOK_IMAGE_BLUR_CUH
+#define CUDA_NOTEBOOK_IMAGE_BLUR_CUH
 
 
 #include <iostream>
@@ -25,10 +25,10 @@ public:
 
     void unsharp_mask();
 
-
+    static cv::Mat  assembleImage(const uchar3* data, int rows, int cols);
     explicit ImageBlur(const std::string &image_path);
 
     ~ImageBlur() = default;
 };
 
-#endif //CUDA_NOTEBOOK_IMAGE_BLUR_H
+#endif //CUDA_NOTEBOOK_IMAGE_BLUR_CUH

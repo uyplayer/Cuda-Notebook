@@ -1,8 +1,9 @@
 
 
 
-#include "image_blur.h"
+#include "image_blur.cuh"
 #include <cuda_runtime.h>
+#include "cuda_kernel.cuh"
 
 ImageBlur::ImageBlur(const std::string &image_path) : Base(
         image_path) {
@@ -33,9 +34,22 @@ void ImageBlur::average(int kernel_size) {
     dim3 block(32, 32);
     dim3 grid((cols + block.x - 1) / block.x, (rows + block.y - 1) / block.y);
 
+    imageBlurAverageKernel<<<grid, block>>>(d_input, d_output, rows, cols, kernel_size);
 
 
+    uchar3 *h_output = new uchar3[rows * cols];
+    cudaMemcpy(h_output, d_output, rows * cols * sizeof(uchar3), cudaMemcpyDeviceToHost);
 
+
+    cv::Mat blurred_image = assembleImage(h_output, rows, cols);
+
+    std::string filename = "src/cuda/image_processing/resource/average_woman.jpg";
+    cv::imwrite(filename, blurred_image);
+
+
+    cudaFree(d_input);
+    cudaFree(d_output);
+    delete[] h_output;
 }
 
 
@@ -67,5 +81,21 @@ void ImageBlur::unsharp_mask() {
     cv::addWeighted(image, 1.5, result, -0.5, 0, result);
     cv::imwrite("unsharp_mask.jpg", result);
 }
+
+cv::Mat ImageBlur::assembleImage(const uchar3 *data, int rows, int cols) {
+    cv::Mat result(rows, cols, CV_8UC3);
+
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            int index = i * cols + j;
+            result.at<cv::Vec3b>(i, j)[0] = data[index].x; // Blue
+            result.at<cv::Vec3b>(i, j)[1] = data[index].y; // Green
+            result.at<cv::Vec3b>(i, j)[2] = data[index].z; // Red
+        }
+    }
+
+    return result;
+}
+
 
 
