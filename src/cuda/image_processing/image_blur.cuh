@@ -15,6 +15,8 @@
 class ImageBlur : public Base {
 
 public:
+    explicit ImageBlur(const std::string &image_path);
+
     void average(int kernel_size = 5);
 
     void gaussian();
@@ -25,8 +27,8 @@ public:
 
     void unsharp_mask();
 
-    static cv::Mat  assembleImage(const uchar3* data, int rows, int cols);
-    explicit ImageBlur(const std::string &image_path);
+    static cv::Mat assembleImage(const uchar3 *data, int rows, int cols);
+
 
     ~ImageBlur() = default;
 };

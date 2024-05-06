@@ -6,11 +6,9 @@
 
 #include "cuda_kernel.cuh"
 
-
 __global__ void imageBlurAverageKernel(const uchar3 *input, uchar3 *output, int rows, int cols, int kernel) {
-
-    unsigned x = blockIdx.x * blockDim.x + threadIdx.x;
-    unsigned y = blockIdx.y * blockDim.y + threadIdx.y;
+    int x = blockIdx.x * blockDim.x + threadIdx.x;
+    int y = blockIdx.y * blockDim.y + threadIdx.y;
 
     if (x < rows && y < cols) {
         int red = 0;
@@ -18,25 +16,34 @@ __global__ void imageBlurAverageKernel(const uchar3 *input, uchar3 *output, int 
         int blue = 0;
         int count = 0;
 
-        // kernel equal to kernel size * kernel size
-        for (int i = -kernel / 2; i <= kernel / 2; i++) {
-            for (int j = -kernel / 2; j <= kernel / 2; j++) {
-                int current_x = x + i;
-                int current_y = y + j;
+        int center_x = x - kernel / 2;
+        int center_y = y - kernel / 2;
 
+        for (int i = 0; i < kernel; i++) {
+            for (int j = 0; j < kernel; j++) {
+                int current_x = center_x + i;
+                int current_y = center_y + j;
+
+                // 检查边界
                 if (current_x >= 0 && current_x < rows && current_y >= 0 && current_y < cols) {
-                    red += input[current_x * cols + current_y].x;
-                    green += input[current_x * cols + current_y].y;
-                    blue += input[current_x * cols + current_y].z;
+                    uchar3 pixel = input[current_x * cols + current_y];
+                    red += pixel.x;
+                    green += pixel.y;
+                    blue += pixel.z;
                     count++;
                 }
             }
         }
 
-        output[x * cols + y].x = red / count;
-        output[x * cols + y].y = green / count;
-        output[x * cols + y].z = blue / count;
+
+        // 归一化处理并写入输出
+        if (count > 0) {
+            output[x * cols + y].x = red / count;
+            output[x * cols + y].y = green / count;
+            output[x * cols + y].z = blue / count;
+        } else {
+            // 如果核心中没有有效像素，则将输出设置为黑色
+            output[x * cols + y] = make_uchar3(0, 0, 0);
+        }
     }
-
-
 }
