@@ -35,8 +35,6 @@ __global__ void imageBlurAverageKernel(const uchar3 *input, uchar3 *output, int 
             }
         }
 
-
-        // 归一化处理并写入输出
         if (count > 0) {
             output[x * cols + y].x = red / count;
             output[x * cols + y].y = green / count;
