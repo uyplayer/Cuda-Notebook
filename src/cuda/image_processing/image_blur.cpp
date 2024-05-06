@@ -20,7 +20,7 @@ void ImageBlur::average(int kernel_size) {
 
     const int rows = image_data.rows;
     const int cols = image_data.cols;
-    const int channels = image_data.channels();
+
 
     // cuda data type uchar3
     uchar3 *d_input, *d_output;
@@ -32,6 +32,7 @@ void ImageBlur::average(int kernel_size) {
     // set grid and  block size
     dim3 block(32, 32);
     dim3 grid((cols + block.x - 1) / block.x, (rows + block.y - 1) / block.y);
+
 
 
 
