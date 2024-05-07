@@ -5,5 +5,8 @@
   "dependencies" : [ {
     "name" : "opencv4",
     "version>=" : "4.8.0#18"
-  } ]
+  }, {
+    "name" : "libtorch",
+    "version>=" : "2.1.2#2"
+  }]
 }
