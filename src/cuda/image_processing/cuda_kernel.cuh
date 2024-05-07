@@ -16,5 +16,8 @@ __global__ void imageBlurGaussianKernel(const uchar3* input, uchar3* output, int
 __global__ void imageBlurMedianKernel(const uchar3* input, uchar3* output, int rows, int cols);
 
 
+__global__ void imageBlurLaplacianKernel(const uchar3* input, uchar3* output, int rows, int cols);
+
+
 
 #endif //CUDA_NOTEBOOK_CUDA_KERNEL_CUH

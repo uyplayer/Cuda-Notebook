@@ -90,11 +90,13 @@ void ImageBlur::median_kernel() {
 
 }
 
-void ImageBlur::laplacian() {
+void ImageBlur::laplacian_kernel() {
+
+
 
 }
 
-void ImageBlur::unsharp_mask() {
+void ImageBlur::unsharp_mask_kernel() {
 
 }
 

@@ -101,3 +101,42 @@ __global__ void imageBlurMedianKernel(const uchar3 *input, uchar3 *output, int r
         output[y * cols + x] = median_pixel;
     }
 }
+
+
+#define MASK_WIDTH 3
+#define MASK_HEIGHT 3
+#define MASK_SIZE MASK_WIDTH * MASK_HEIGHT
+
+__constant__ int laplacian_mask[MASK_SIZE] = {-1, -1, -1, -1, 8, -1, -1, -1, -1};
+
+__global__ void imageBlurLaplacianKernel(const uchar3* input, uchar3* output, int rows, int cols){
+
+    auto x = blockIdx.x * blockDim.x + threadIdx.x;
+    auto y = blockIdx.y * blockDim.y + threadIdx.y;
+
+        if(x < cols && y < rows){
+        int red = 0;
+        int green = 0;
+        int blue = 0;
+
+        int center_x = x - MASK_WIDTH / 2;
+        int center_y = y - MASK_HEIGHT / 2;
+
+        for(int i = 0; i < MASK_WIDTH; i++){
+            for(int j = 0; j < MASK_HEIGHT; j++){
+                int current_x = center_x + i;
+                int current_y = center_y + j;
+
+                if(current_x >= 0 && current_x < cols && current_y >= 0 && current_y < rows){
+                    uchar3 pixel = input[current_y * cols + current_x];
+                    red += pixel.x * laplacian_mask[j * MASK_WIDTH + i];
+                    green += pixel.y * laplacian_mask[j * MASK_WIDTH + i];
+                    blue += pixel.z * laplacian_mask[j * MASK_WIDTH + i];
+                }
+            }
+        }
+
+        output[y * cols + x].x = min(max(red, 0), 255);
+        output[y * cols + x].y = min(max(green, 0), 255);
+        output[y * cols + x].z = min(max(blue, 0), 255);
+    }}
