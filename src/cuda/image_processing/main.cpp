@@ -17,6 +17,7 @@ int main(){
 
     image_blur.gaussian_kernel(20);
     image_blur.median_kernel();
+    image_blur.laplacian_kernel();
 
     return 0;
 }

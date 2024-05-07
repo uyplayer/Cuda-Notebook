@@ -107,7 +107,7 @@ __global__ void imageBlurMedianKernel(const uchar3 *input, uchar3 *output, int r
 #define MASK_HEIGHT 3
 #define MASK_SIZE MASK_WIDTH * MASK_HEIGHT
 
-__constant__ int laplacian_mask[MASK_SIZE] = {-1, -1, -1, -1, 8, -1, -1, -1, -1};
+__constant__ int laplacian_mask[MASK_SIZE] = {-1, -1, -1, -1, 10, -1, -1, -1, -1};
 
 __global__ void imageBlurLaplacianKernel(const uchar3* input, uchar3* output, int rows, int cols){
 

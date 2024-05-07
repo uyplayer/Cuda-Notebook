@@ -18,11 +18,11 @@ public:
     explicit ImageBlur(const std::string &image_path);
 
     void gaussian_kernel(int kernel_size = 5);
+
     void median_kernel();
 
     void laplacian_kernel();
 
-    void unsharp_mask_kernel();
 
     static cv::Mat assembleImage(const uchar3 *data, int rows, int cols);
 

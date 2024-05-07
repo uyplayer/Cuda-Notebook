@@ -92,13 +92,41 @@ void ImageBlur::median_kernel() {
 
 void ImageBlur::laplacian_kernel() {
 
+    const int rows = image_data.rows;
+    const int cols = image_data.cols;
+
+
+    uchar3 *d_input, *d_output;
+    cudaMalloc(&d_input, rows * cols * sizeof(uchar3));
+    cudaMalloc(&d_output, rows * cols * sizeof(uchar3));
+
+    // cuda data copy
+    cudaMemcpy(d_input, image_data.ptr<uchar3>(), rows * cols * sizeof(uchar3), cudaMemcpyHostToDevice);
+
+    // set grid and  block size
+    dim3 block(32, 32);
+    dim3 grid((cols + block.x - 1) / block.x, (rows + block.y - 1) / block.y);
+
+    imageBlurLaplacianKernel<<<grid, block>>>(d_input, d_output, rows, cols);
+
+    uchar3 *h_output = new uchar3[rows * cols];
+    cudaMemcpy(h_output, d_output, rows * cols * sizeof(uchar3), cudaMemcpyDeviceToHost);
+
+
+    cv::Mat blurred_image = assembleImage(h_output, rows, cols);
+
+    std::string filename = "src/cuda/image_processing/resource/laplacian_woman.jpg";
+    cv::imwrite(filename, blurred_image);
+
+
+    cudaFree(d_input);
+    cudaFree(d_output);
+    delete[] h_output;
+
 
 
 }
 
-void ImageBlur::unsharp_mask_kernel() {
-
-}
 
 cv::Mat ImageBlur::assembleImage(const uchar3 *data, int rows, int cols) {
     cv::Mat result(rows, cols, CV_8UC3);
