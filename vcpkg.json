@@ -1,12 +1,12 @@
 {
   "name" : "cuda-notebook",
   "version-string" : "1.0.0",
-  "builtin-baseline" : "326d8b43e365352ba3ccadf388d989082fe0f2a6",
+  "builtin-baseline" : "28b1cf627c0570b3e094192df2fce31a3a2bc1d3",
   "dependencies" : [ {
     "name" : "opencv4",
     "version>=" : "4.8.0#18"
   }, {
     "name" : "libtorch",
     "version>=" : "2.1.2#2"
-  }]
+  } ]
 }
