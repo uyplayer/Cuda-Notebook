@@ -33,3 +33,4 @@ include_directories(${PROJECT_SOURCE_DIR}/common)
 #target_link_libraries(main PRIVATE cjson)
 
 add_subdirectory(src/cuda/image_processing)
+add_subdirectory(src/cuda/neural_network)
