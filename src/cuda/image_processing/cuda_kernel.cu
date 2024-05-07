@@ -119,16 +119,14 @@ __global__ void imageBlurLaplacianKernel(const uchar3* input, uchar3* output, in
         int green = 0;
         int blue = 0;
 
-        int center_x = x - MASK_WIDTH / 2;
-        int center_y = y - MASK_HEIGHT / 2;
 
-        for(int i = 0; i < MASK_WIDTH; i++){
-            for(int j = 0; j < MASK_HEIGHT; j++){
-                int current_x = center_x + i;
-                int current_y = center_y + j;
+        for(int i = -MASK_WIDTH / 2; i <= MASK_WIDTH / 2; i++){
+            for(int j = -MASK_HEIGHT / 2; j <= MASK_HEIGHT / 2; j++){
+                int new_x = min(max(x + i, 0), cols - 1);
+                int new_y = min(max(y + j, 0), rows - 1);
 
-                if(current_x >= 0 && current_x < cols && current_y >= 0 && current_y < rows){
-                    uchar3 pixel = input[current_y * cols + current_x];
+                if(new_x >= 0 && new_x < cols && new_y >= 0 && new_y < rows){
+                    uchar3 pixel = input[new_y * cols + new_x];
                     red += pixel.x * laplacian_mask[j * MASK_WIDTH + i];
                     green += pixel.y * laplacian_mask[j * MASK_WIDTH + i];
                     blue += pixel.z * laplacian_mask[j * MASK_WIDTH + i];
