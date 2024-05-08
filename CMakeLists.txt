@@ -26,6 +26,12 @@ message(STATUS "CUDA Version: ${CUDA_VERSION}")
 message(STATUS "CUDA_INCLUDE_DIRS: ${CUDA_INCLUDE_DIRS}")
 message(STATUS "CUDA_FOUND: ${OpenCV_FOUND}")
 include_directories(${CUDA_INCLUDE_DIRS})
+
+
+
+
+
+
 include_directories(${PROJECT_SOURCE_DIR}/common)
 
 #find_package(cJSON CONFIG REQUIRED)

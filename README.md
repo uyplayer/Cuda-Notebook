@@ -34,8 +34,8 @@
 8. **cutlass**：
    cutlass是一个面向CUDA的矩阵乘法运算库，其设计旨在提供灵活性和可扩展性。可以作为cuBLAS和CUTLASS之间的桥梁，深入学习cutlass可以帮助你理解矩阵乘法的优化技术。
 
-
-
+9. **TensorRT**
+10. **Libtorch**
 
 ## 资源
 
