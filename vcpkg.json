@@ -8,5 +8,8 @@
   }, {
     "name" : "libtorch",
     "version>=" : "2.1.2#2"
+  }, {
+    "name" : "rapidcsv",
+    "version>=" : "8.80"
   } ]
 }
