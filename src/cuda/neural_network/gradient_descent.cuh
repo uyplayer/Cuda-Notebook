@@ -1,0 +1,13 @@
+
+
+
+#ifndef CUDA_NOTEBOOK_GRADIENT_DESCENT_CUH
+#define CUDA_NOTEBOOK_GRADIENT_DESCENT_CUH
+
+
+class gradient_descent {
+
+};
+
+
+#endif //CUDA_NOTEBOOK_GRADIENT_DESCENT_CUH

@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.18)
 
 # Set project
 project(Cuda-Notebook LANGUAGES C CXX CUDA)
-
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Set CUDA architecture
@@ -24,11 +23,7 @@ enable_language(CUDA)
 
 message(STATUS "CUDA Version: ${CUDA_VERSION}")
 message(STATUS "CUDA_INCLUDE_DIRS: ${CUDA_INCLUDE_DIRS}")
-message(STATUS "CUDA_FOUND: ${OpenCV_FOUND}")
 include_directories(${CUDA_INCLUDE_DIRS})
-
-
-
 
 
 

@@ -2,11 +2,11 @@
 
 
 #include <iostream>
-#include <torch/torch.h>
+
 
 int main(){
 
-    std::cout << "Hello neural_network !" << std::endl;
+    std::cout << "Hello neural network !" << std::endl;
 
     return 0;
 }

@@ -1,0 +1,13 @@
+
+
+
+#ifndef CUDA_NOTEBOOK_LINEAR_REGRESSION_CUH
+#define CUDA_NOTEBOOK_LINEAR_REGRESSION_CUH
+
+
+class linear_regression {
+
+};
+
+
+#endif //CUDA_NOTEBOOK_LINEAR_REGRESSION_CUH

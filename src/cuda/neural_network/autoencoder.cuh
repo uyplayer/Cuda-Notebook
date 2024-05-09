@@ -1,0 +1,13 @@
+
+
+
+#ifndef CUDA_NOTEBOOK_AUTOENCODER_CUH
+#define CUDA_NOTEBOOK_AUTOENCODER_CUH
+
+
+class autoencoder {
+
+};
+
+
+#endif //CUDA_NOTEBOOK_AUTOENCODER_CUH
