@@ -18,7 +18,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(rapidcsv)
 
 set(source_files
-        main.cpp
+        main.cu
         linear_regression.cu
         data_loader.cpp
 )

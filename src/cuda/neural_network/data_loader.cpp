@@ -18,6 +18,9 @@ public:
         rapidcsv::Document doc(filename, rapidcsv::LabelParams(),
                                rapidcsv::SeparatorParams(),
                                rapidcsv::ConverterParams(true));
+
+
+        return doc;
     }
 
 
