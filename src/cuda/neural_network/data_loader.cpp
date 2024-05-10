@@ -12,7 +12,7 @@ public:
         }
     }
 
-    ~CSVDataLoader() = delete;
+    ~CSVDataLoader() = default;
 
     rapidcsv::Document load_csv() {
         rapidcsv::Document doc(filename, rapidcsv::LabelParams(),
