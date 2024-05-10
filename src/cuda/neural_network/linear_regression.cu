@@ -14,17 +14,17 @@ public:
     float *weights;
     float bias;
     float *d_weights{};
-    size_t num_features;
     float *X{};
     float *y{};
+    float *d_X{};
+    float *d_y{};
+    size_t num_features;
 
     explicit LinearRegression(std::string file_name) {
         data = CSVDataLoader(std::move(file_name)).load_csv();
         num_features = data.GetColumnCount() - 1;
         weights = new float[num_features];
-        cudaMalloc(&d_weights, (num_features) * sizeof(float));
-        cudaMemcpy(d_weights, weights, (num_features) * sizeof(float), cudaMemcpyHostToDevice);
-        bias = 0.0f;
+        bias = 0.0;
         num_features = data.GetColumnCount();
     }
 
@@ -43,10 +43,15 @@ public:
                 }
             }
         }
+
         // device memory
-        float *d_X, *d_y;
         cudaMalloc(&d_X, num_samples * num_features * sizeof(float));
         cudaMalloc(&d_y, num_samples * sizeof(float));
+
+        cudaMemcpy(d_X, X, num_samples * num_features * sizeof(float), cudaMemcpyHostToDevice);
+        cudaMemcpy(d_y, y, num_samples * sizeof(float), cudaMemcpyHostToDevice);
+
+        // kernel
 
 
         cudaFree(d_X);
@@ -57,6 +62,8 @@ public:
         delete[] weights;
         delete[] X;
         delete[] y;
+        delete[] d_X;
+        delete[] d_y;
         cudaFree(d_weights);
     }
 
