@@ -4,15 +4,14 @@
 #include "linear_regression.cuh"
 
 void run_LinearRegression();
-int main(){
+
+int main() {
     std::cout << "Hello neural network !" << std::endl;
-    run_LinearRegression();
     return 0;
 }
 
 
-
-void run_LinearRegression(){
+void run_LinearRegression() {
     LinearRegression model{"src/cuda/neural_network/datasets/Boston Housing Dataset.csv"};
     model.fit(0.00000001, 10000);
     auto num_features = model.get_num_features();
