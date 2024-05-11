@@ -19,6 +19,8 @@ public:
 
     [[nodiscard]] float get_bias() const;
 
+    int get_num_features() const;
+
 
 private:
     rapidcsv::Document data;
@@ -31,6 +33,7 @@ private:
     float *d_weights;
     float *d_bias;
     int num_features;
+    float *predictions;
 };
 
 #endif //CUDA_NOTEBOOK_LINEAR_REGRESSION_CUH

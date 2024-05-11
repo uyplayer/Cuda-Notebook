@@ -41,8 +41,8 @@ void LinearRegression::fit(float learning_rate, int epochs) {
 
     // 初始化特征和标签
     for (size_t i = 0; i < num_samples; i++) {
-        for (size_t j = 0; j < num_features; j++) {
-            if (j == num_features - 1) {
+        for (size_t j = 0; j <= num_features; j++) {
+            if (j == num_features) {
                 y[i] = data.GetCell<float>(j, i);
                 if (y[i] < 0) {
                     std::cerr << "Error: y["<<i<<"] must be greater than 0" << std::endl;
@@ -55,6 +55,7 @@ void LinearRegression::fit(float learning_rate, int epochs) {
                     exit(EXIT_FAILURE);
                 }
             }
+
         }
     }
 
@@ -63,6 +64,12 @@ void LinearRegression::fit(float learning_rate, int epochs) {
     cudaMalloc(&d_y, num_samples * sizeof(float));
     cudaMalloc(&d_weights, num_features * sizeof(float));
     cudaMalloc(&d_bias, sizeof(float));
+
+    cudaMemset(d_X,0, num_samples * num_features * sizeof(float));
+    cudaMemset(d_y,0, num_samples * sizeof(float));
+    cudaMemset(d_weights, 0, num_features * sizeof(float));
+    cudaMemset(d_bias, 0, sizeof(float));
+
 
     // 将数据从主机复制到设备
     cudaMemcpy(d_X, X, num_samples * num_features * sizeof(float), cudaMemcpyHostToDevice);
@@ -73,13 +80,13 @@ void LinearRegression::fit(float learning_rate, int epochs) {
     // 训练模型
     int block_size = 256;
     int num_blocks = (num_samples + block_size - 1) / block_size;
-    std::cout << " epochs : " << epochs << block_size << std::endl;
+    std::cout << " epochs : " << epochs  << std::endl;
     for (int epoch = 0; epoch < epochs; ++epoch) {
         update_weights<<<num_blocks, block_size>>>(d_X, d_y, d_weights, d_bias, learning_rate, num_samples,
                                                            num_features);
-        // 同步核函数
         cudaDeviceSynchronize();
     }
+
     // 将数据从设备复制到主机
     cudaMemcpy(weights, d_weights, num_features * sizeof(float), cudaMemcpyDeviceToHost);
     cudaMemcpy(&bias, d_bias, sizeof(float), cudaMemcpyDeviceToHost);
@@ -99,7 +106,7 @@ void LinearRegression::fit(float learning_rate, int epochs) {
 }
 
 float *LinearRegression::predict(float *X_test, size_t num_samples) {
-    float *predictions = new float[num_samples];
+    predictions = new float[num_samples];
 
     for (size_t i = 0; i < num_samples; ++i) {
         predictions[i] = 0.0;
@@ -114,6 +121,7 @@ float *LinearRegression::predict(float *X_test, size_t num_samples) {
 
 LinearRegression::~LinearRegression() {
     delete[] weights;
+    delete[] predictions;
 }
 
 float *LinearRegression::get_weights() const {
@@ -124,24 +132,24 @@ float LinearRegression::get_bias() const {
     return bias;
 }
 
+int LinearRegression::get_num_features() const {
+    return num_features;
+}
 
 
 __global__ void update_weights(float *d_X, float *d_y, float *d_weights, float *d_bias, float learning_rate, int num_samples,
                int num_features) {
     auto idx = blockIdx.x * blockDim.x + threadIdx.x;
     if (idx < num_samples) {
-//        printf("idx = %d\n", idx);
         float y_pred = 0.0;
         for (int i = 0; i < num_features; ++i) {
-            printf("d_X[%d] = %f\n", idx * num_features + i, d_X[idx * num_features + i]);
             y_pred += d_X[idx * num_features + i] * d_weights[i];
-            printf("y_pred = %f\n", y_pred);
 
         }
         y_pred += *d_bias;
         // 计算误差
         float error = y_pred - d_y[idx];
-        for (int i = 0; i < num_features; ++i) {
+        for (int i = 0; i <= num_features; ++i) {
             atomicAdd(&d_weights[i], -learning_rate * error * d_X[idx * num_features + i]);
         }
         atomicAdd(d_bias, -learning_rate * error);
