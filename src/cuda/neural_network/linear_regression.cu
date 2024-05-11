@@ -84,9 +84,8 @@ void LinearRegression::fit(float learning_rate, int epochs) {
     for (int epoch = 0; epoch < epochs; ++epoch) {
         update_weights<<<num_blocks, block_size>>>(d_X, d_y, d_weights, d_bias, learning_rate, num_samples,
                                                            num_features);
-        cudaDeviceSynchronize();
     }
-
+    cudaDeviceSynchronize();
     // 将数据从设备复制到主机
     cudaMemcpy(weights, d_weights, num_features * sizeof(float), cudaMemcpyDeviceToHost);
     cudaMemcpy(&bias, d_bias, sizeof(float), cudaMemcpyDeviceToHost);

@@ -7,6 +7,7 @@ void run_LinearRegression();
 
 int main() {
     std::cout << "Hello neural network !" << std::endl;
+    run_LinearRegression();
     return 0;
 }
 

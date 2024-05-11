@@ -20,6 +20,7 @@ FetchContent_MakeAvailable(rapidcsv)
 set(source_files
         main.cu
         linear_regression.cu
+        gradient_descent.cu
         data_loader.cpp
 )
 
