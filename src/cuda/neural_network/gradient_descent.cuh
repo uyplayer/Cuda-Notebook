@@ -18,7 +18,8 @@ public:
     ~GradientDescent();
 
     void update_cpu();
-    float predict_cpu(std::vector<float> features);
+    float predict_cpu(std::vector<float> features) const;
+
     void update_gpu();
 
 
