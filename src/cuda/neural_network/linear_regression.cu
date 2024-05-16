@@ -1,6 +1,5 @@
 #include <iostream>
 #include <utility>
-
 #include "data_loader.cpp"
 #include <random>
 #include "linear_regression.cuh"
