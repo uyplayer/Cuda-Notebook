@@ -5,6 +5,8 @@
 
 
 
+const int DIM = 1000;
+
 
 struct cuComplex {
 
