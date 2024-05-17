@@ -15,11 +15,11 @@ set(source_files
         Base.cpp
         image_blur.cu
         cuda_kernel.cu
-        ../../cuda_by_example/julia_gpu.cu
-        ../../cuda_by_example/main.cu
+        ../cuda_by_example/julia_gpu.cu
+        ../cuda_by_example/main.cu
 
 )
 
 add_executable(image_processing ${source_files})
-target_include_directories(image_processing PRIVATE ${PROJECT_SOURCE_DIR}/common)
+target_include_directories(image_processing PRIVATE ../../common)
 target_link_libraries(image_processing PRIVATE  ${OpenCV_LIBS})

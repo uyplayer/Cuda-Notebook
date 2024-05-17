@@ -25,6 +25,6 @@ set(source_files
 )
 
 add_executable(neural_network ${source_files})
-target_include_directories(neural_network PRIVATE ${PROJECT_SOURCE_DIR}/common)
+target_include_directories(neural_network PRIVATE ../../common)
 target_link_libraries(neural_network PRIVATE rapidcsv)
 
