@@ -12,7 +12,7 @@ int main() {
 
 
 void run_LinearRegression() {
-    LinearRegression model{"src/cuda/neural_network/datasets/Boston Housing Dataset.csv"};
+    LinearRegression model{"data/Boston Housing Dataset.csv"};
     model.fit(0.00000001, 10000);
     auto num_features = model.get_num_features();
     auto weights = model.get_weights();
