@@ -35,5 +35,4 @@ include_directories(${PROJECT_SOURCE_DIR}/common)
 
 add_subdirectory(src/image_processing)
 add_subdirectory(src/neural_network)
-add_subdirectory(src/cuda_by_example)
 add_subdirectory(src/thrust)

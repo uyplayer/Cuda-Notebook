@@ -15,8 +15,6 @@ set(source_files
         Base.cpp
         image_blur.cu
         cuda_kernel.cu
-        ../cuda_by_example/julia_gpu.cu
-        ../cuda_by_example/main.cu
 
 )
 

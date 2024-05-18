@@ -24,16 +24,16 @@ public:
 
 private:
     rapidcsv::Document data;
-    float *weights;
-    float bias;
-    float *X;
-    float *y;
-    float *d_X;
-    float *d_y;
-    float *d_weights;
-    float *d_bias;
+    float *weights{};
+    float bias{};
+    float *X{};
+    float *y{};
+    float *d_X{};
+    float *d_y{};
+    float *d_weights{};
+    float *d_bias{};
     int num_features;
-    float *predictions;
+    float *predictions{};
 };
 
 #endif //CUDA_NOTEBOOK_LINEAR_REGRESSION_CUH

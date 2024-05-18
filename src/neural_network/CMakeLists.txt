@@ -22,6 +22,7 @@ set(source_files
         linear_regression.cu
         gradient_descent.cu
         data_loader.cpp
+        multilayer_perceptron.cu
 )
 
 add_executable(neural_network ${source_files})
