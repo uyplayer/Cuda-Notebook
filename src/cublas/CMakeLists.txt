@@ -2,6 +2,7 @@
 
 set(source_files
         main.cu
+        based_indexing.cu
 
 )
 
