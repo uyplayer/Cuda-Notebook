@@ -7,7 +7,7 @@
 #include <iostream>
 #include <cublas_v2.h>
 #include <cuda_runtime.h>
-
+#include <iomanip>
 
 //  Fortran风格的1-based索引和列主存储
 // row ,col ,leading dimension(number of rows
@@ -72,12 +72,34 @@ void base_1()
     stat = cublasSetMatrix(M,N, sizeof(*a), a, M, devPtrA, M);
     if (stat != CUBLAS_STATUS_SUCCESS)
     {
-        printf("data download failed");
+        std::cout << "data download failed" << std::endl;
         free(a);
         cudaFree(devPtrA);
         cublasDestroy(handle);
         exit(1);
     }
+
+    modify0(handle, devPtrA, M, N, 2, 3, 16.0f, 12.0f);
+    stat = cublasGetMatrix(M, N, sizeof(*a), devPtrA, M, a, M);
+    if (stat != CUBLAS_STATUS_SUCCESS)
+    {
+        std::cout << "data download failed" << std::endl;
+        free(a);
+        cudaFree(devPtrA);
+        cublasDestroy(handle);
+        exit(1);
+    }
+    cudaFree(devPtrA);
+    cublasDestroy(handle);
+    for (int j = 1; j <= N; j++)
+    {
+        for (int i = 1; i <= M; i++)
+        {
+            std::cout << std::setw(7) << std::setprecision(0) << a[IDX2F(i,j,M)];
+        }
+        std::cout << std::endl;
+    }
+    free(a);
 }
 
 // cuBLAS: 0-based indexing
