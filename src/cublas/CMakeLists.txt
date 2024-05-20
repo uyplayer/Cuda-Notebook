@@ -2,8 +2,6 @@
 
 set(source_files
         main.cu
-        0-based.cu
-        1-based.cu
 
 )
 
