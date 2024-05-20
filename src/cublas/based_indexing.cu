@@ -95,14 +95,85 @@ void base_1()
     {
         for (int i = 1; i <= M; i++)
         {
-            std::cout << std::setw(7) << std::setprecision(0) << a[IDX2F(i,j,M)];
+            std::cout << std::setw(7) << std::setprecision(0) << a[IDX2F(i, j, M)];
         }
         std::cout << std::endl;
     }
     free(a);
 }
 
+
+static __inline__ void modify(cublasHandle_t handle, float* m, int ldm, int n, int p, int q, float alpha, float beta)
+{
+    cublasSscal(handle, n - q, &alpha, &m[IDX2C(p, q, ldm)], ldm);
+    cublasSscal(handle, ldm - p, &beta, &m[IDX2C(p, q, ldm)], 1);
+}
+
 // cuBLAS: 0-based indexing
 void base_0()
 {
+    cudaError_t cudaStat;
+    cublasStatus_t stat;
+    cublasHandle_t handle;
+    int i, j;
+    float* devPtrA;
+    float* a = 0;
+    a = (float*)malloc(M * N * sizeof (*a));
+    if (!a)
+    {
+        printf("host memory allocation failed");
+        exit(1);
+    }
+    for (j = 0; j < N; j++)
+    {
+        for (i = 0; i < M; i++)
+        {
+            a[IDX2C(i, j, M)] = (float)(i * N + j + 1);
+        }
+    }
+    cudaStat = cudaMalloc((void**)&devPtrA, M * N * sizeof(*a));
+    if (cudaStat != cudaSuccess)
+    {
+        printf("device memory allocation failed");
+        free(a);
+        exit(1);
+    }
+    stat = cublasCreate(&handle);
+    if (stat != CUBLAS_STATUS_SUCCESS)
+    {
+        printf("CUBLAS initialization failed\n");
+        free(a);
+        cudaFree(devPtrA);
+        exit(1);
+    }
+    stat = cublasSetMatrix(M, N, sizeof(*a), a, M, devPtrA, M);
+    if (stat != CUBLAS_STATUS_SUCCESS)
+    {
+        printf("data download failed");
+        free(a);
+        cudaFree(devPtrA);
+        cublasDestroy(handle);
+        exit(1);
+    }
+    modify(handle, devPtrA, M, N, 1, 2, 16.0f, 12.0f);
+    stat = cublasGetMatrix(M, N, sizeof(*a), devPtrA, M, a, M);
+    if (stat != CUBLAS_STATUS_SUCCESS)
+    {
+        printf("data upload failed");
+        free(a);
+        cudaFree(devPtrA);
+        cublasDestroy(handle);
+        exit(1);
+    }
+    cudaFree(devPtrA);
+    cublasDestroy(handle);
+    for (j = 0; j < N; j++)
+    {
+        for (i = 0; i < M; i++)
+        {
+            printf("%7.0f", a[IDX2C(i, j, M)]);
+        }
+        printf("\n");
+    }
+    free(a);
 }
