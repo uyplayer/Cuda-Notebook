@@ -23,6 +23,12 @@
 - 理解异步操作和流的概念，并学习如何在cuBLAS中使用。
 - 探索在多线程和多GPU环境中使用cuBLAS的方法。
 - 学习复杂线性代数运算，如解线性方程组、求特征值和奇异值分解等。
+- cuBLASLt
+- cuBLASXt
+- cuBLASDx
+- cuBLAS Legacy
+
+
 
 ### 4. 优化技巧
 
