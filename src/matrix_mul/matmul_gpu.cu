@@ -26,7 +26,7 @@ void matmul_gpu() {
     std::cout << "Matrix Multiplication on GPU" << std::endl;
 
     constexpr int Row = 5000;
-    constexpr int Col = 5000;
+    constexpr int Col = 50;
 
     float *d_A, *d_B, *d_C;
     float *h_A, *h_B, *h_C;
