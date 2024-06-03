@@ -6,5 +6,6 @@
 #define CUDA_NOTEBOOK_MATMUL_CUH
 
 void matmul_cpu();
+void matmul_gpu();
 
 #endif //CUDA_NOTEBOOK_MATMUL_CUH

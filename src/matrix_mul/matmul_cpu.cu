@@ -9,9 +9,9 @@
 
 
 void matmul_cpu() {
+    std::cout << "Matrix Multiplication on CPU" << std::endl;
 
-
-    constexpr int row = 10000;
+    constexpr int row = 5000;
     constexpr int col = 5000;
 
     float *A = new float[row * col];

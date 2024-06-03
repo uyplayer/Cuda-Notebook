@@ -5,10 +5,11 @@
 #include <iostream>
 #include "matmul.cuh"
 
-int main(){
+int main() {
 
     std::cout << "Hello, matrix_mul !" << std::endl;
     matmul_cpu();
-
+    matmul_gpu();
+    return 0;
 
 }
