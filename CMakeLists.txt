@@ -8,10 +8,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CUDA_ARCHITECTURES 86)
 
 
-if(DEFINED ENV{vcpkg_root_dir})
-    set(VCPKG_ROOT_DIR $ENV{vcpkg_root_dir})
+if(DEFINED ENV{VCPKG_ROOT_DIR})
+    set(VCPKG_ROOT_DIR $ENV{VCPKG_ROOT_DIR})
 else()
-    message(FATAL_ERROR "Environment variable 'vcpkg_root_dir' is not set.")
+    message(FATAL_ERROR "Environment variable 'VCPKG_ROOT_DIR' is not set.")
 endif()
 
 message(STATUS "VCPKG_ROOT_DIR: ${VCPKG_ROOT_DIR}")
@@ -38,3 +38,4 @@ add_subdirectory(src/neural_network)
 add_subdirectory(src/thrust)
 add_subdirectory(src/cublas)
 add_subdirectory(src/reduction)
+add_subdirectory(src/cudnn)
