@@ -6,5 +6,5 @@ set(source_files
 
 )
 
-add_executable(cublas ${source_files})
+add_executable(cudnn ${source_files})
 target_include_directories(neural_network PRIVATE ../../common)

@@ -30,7 +30,7 @@ include_directories(${CUDA_INCLUDE_DIRS})
 include_directories(${PROJECT_SOURCE_DIR}/common)
 
 #find_package(cJSON CONFIG REQUIRED)
-#add_executable(main main.cpp)
+#add_executable(main main.cu)
 #target_link_libraries(main PRIVATE cjson)
 
 add_subdirectory(src/image_processing)
