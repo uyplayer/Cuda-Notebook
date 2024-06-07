@@ -11,7 +11,7 @@
 
 int main(){
     std::cout << "Hello image_processing" << std::endl;
-    std::string image_path = "src/cuda/image_processing/resource/woman.jpg";
+    std::string image_path = "src/image_processing/resource/woman.jpg";
 
     ImageBlur image_blur{image_path};
 
