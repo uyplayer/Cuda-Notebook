@@ -8,11 +8,12 @@
 #include <cstdlib>
 #include <vector>
 #include <cuda.h>
+#include <cudnn.h>
 #include "error.h"
 
-
 void cuda_dnn() {
-
+    cudnnHandle_t cudnn;
+    HANDLE_ERROR_CUDNN(cudnnCreate(&cudnn));
 
 
 
