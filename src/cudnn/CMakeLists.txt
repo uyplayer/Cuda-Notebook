@@ -3,6 +3,7 @@
 set(source_files
         main.cu
         conv_cudnn.cu
+        conv_cudnn.cu
 )
 
 
