@@ -21,8 +21,6 @@ __global__ void countChar(char *text, int numBytes, char target, int *result) {
 
 int main(int argc, char **argv) {
     std::cout << "Hello, c++11_cuda!" << std::endl;
-    std::cout << "Project root directory: " << PRO_ROOT_DIR << std::endl;
-
     // 解析命令行参数
     cxxopts::Options options("asyncAPI", "A brief description");
     options.add_options()
@@ -38,7 +36,7 @@ int main(int argc, char **argv) {
     const std::string file_name = "warandpeace.txt";
     std::string project_root_dir(PRO_ROOT_DIR);
     std::string file_path = project_root_dir + "/src/cuda-samples/0_Introduction/c++11_cuda/" + file_name;
-    std::cout << "File path: " << file_path << std::endl;
+
 
     // 检查文件是否存在
     if (!std::filesystem::exists(file_path)) {
