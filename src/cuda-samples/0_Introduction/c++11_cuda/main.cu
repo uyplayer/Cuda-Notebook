@@ -1,101 +1,100 @@
-//
-// Created by uyplayer on 2024-06-15.
-//
-
-
+#include <filesystem>
 #include <fstream>
+#include <iostream>
+#include <memory>
+#include <string>
 #include <thrust/device_ptr.h>
 #include <thrust/count.h>
 #include <thrust/execution_policy.h>
 #include "error.h"
+#include "cxxopts.hpp"
 
-
-const char *sdkFindFilePath(const char *filename, const char *executable_path) {
-    static char filepath[512];
-    strcpy(filepath, executable_path);
-
-    char *last_slash = strrchr(filepath, '/');
-    if (!last_slash) {
-        last_slash = strrchr(filepath, '\\');
-    }
-
-    if (last_slash) {
-        last_slash[1] = '\0';
-    } else {
-        filepath[0] = '\0';
-    }
-
-    strcat(filepath, filename);
-    std::cout << "filepath: " << filepath << std::endl;
-    // 检查文件是否存在
-    std::ifstream file(filepath);
-    if (file.good()) {
-        return filepath;
-    } else {
-        std::cerr << "File not found: " << filepath << std::endl;
-        return nullptr;
-    }
-}
-
-__device__ void count_if(int *count, char *data, int n) {
+__global__ void countChar(char *text, int numBytes, char target, int *result) {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
     int stride = blockDim.x * gridDim.x;
-    const char letters[]{'x', 'y', 'z', 'w'};
-    for (int i = idx; i < n; i += stride) {
-        for (const auto x: letters) {
-            if (data[i] == x) {
-                atomicAdd(count, 1);
-                break;
-            }
+    for (int i = idx; i < numBytes; i += stride) {
+        if (text[i] == target) {
+            atomicAdd(result, 1);
         }
     }
 }
 
-__global__ void xyzw_frequency(int *count, char *text, int n) {
-    count_if(count, text, n);
-}
 
 int main(int argc, char **argv) {
     std::cout << "Hello, c++11_cuda!" << std::endl;
-    const char *filename = sdkFindFilePath("warandpeace.txt",
-                                           "D:/Cuda/Cuda-Notebook/src/cuda-samples/0_Introduction/c++11_cuda/");
-    if (!filename) {
+    std::cout << "Project root directory: " << PRO_ROOT_DIR << std::endl;
+
+    // 解析命令行参数
+    cxxopts::Options options("asyncAPI", "A brief description");
+    options.add_options()
+            ("d,device", "Device ID", cxxopts::value<int>()->default_value("0"))
+            ("t,thrust", "Using thrust", cxxopts::value<int>()->default_value("0"));
+    const auto command_result = options.parse(argc, argv);
+    int device_id = command_result["device"].as<int>();
+    int using_thrust = command_result["thrust"].as<int>();
+    std::cout << "Device ID: " << device_id << std::endl;
+    std::cout << "Using thrust: " << using_thrust << std::endl;
+
+    // 构建文件路径
+    const std::string file_name = "warandpeace.txt";
+    std::string project_root_dir(PRO_ROOT_DIR);
+    std::string file_path = project_root_dir + "/src/cuda-samples/0_Introduction/c++11_cuda/" + file_name;
+    std::cout << "File path: " << file_path << std::endl;
+
+    // 检查文件是否存在
+    if (!std::filesystem::exists(file_path)) {
         std::cerr << "Cannot find the input text file. Exiting.." << std::endl;
         return EXIT_FAILURE;
     }
 
-    int numBytes = 16 * 1048576;
-    char *h_text = (char *) malloc(numBytes);
-    int devID = 0;
+    // 打开文件并读取数据
+    std::ifstream file(file_path, std::ios::binary);
+    if (!file.good()) {
+        std::cerr << "Failed to open file." << std::endl;
+        return EXIT_FAILURE;
+    }
+    file.seekg(0, std::ios::end);
+    int numBytes = file.tellg();
+    file.seekg(0, std::ios::beg);
+
+    // 分配主机和设备上的内存
+    char *h_text;
+    HANDLE_ERROR(cudaMallocHost((void **)&h_text, numBytes));
     char *d_text;
     HANDLE_ERROR(cudaMalloc((void **)&d_text, numBytes));
 
-    FILE *fp = fopen(filename, "r");
-    if (fp == NULL) {
-        printf("Cannot find the input text file\n. Exiting..\n");
-        return EXIT_FAILURE;
+    // 从文件读取数据到主机内存
+    file.read(h_text, numBytes);
+    file.close();
+
+    // 将数据从主机复制到设备
+    HANDLE_ERROR(cudaMemcpy(d_text, h_text, numBytes, cudaMemcpyHostToDevice));
+
+    if (using_thrust) {
+        // 使用Thrust进行字符统计
+        std::cout << "Using thrust" << std::endl;
+        thrust::device_ptr<char> dev_ptr(d_text);
+        int numAs = thrust::count(thrust::device, dev_ptr, dev_ptr + numBytes, 'a');
+        std::cout << "Number of 'a' in the text: " << numAs << std::endl;
+    } else {
+        // 使用纯CUDA进行字符统计
+        std::cout << "Not using thrust" << std::endl;
+        int *d_result;
+        HANDLE_ERROR(cudaMalloc((void **)&d_result, sizeof(int)));
+        HANDLE_ERROR(cudaMemset(d_result, 0, sizeof(int)));
+        int numThreads = 32;
+        int numBlocks = 256;
+        char targetChar = 'a'; // 统计字符 'a' 的数量
+        countChar<<<numBlocks, numThreads>>>(d_text, numBytes, targetChar, d_result);
+        int result;
+        HANDLE_ERROR(cudaMemcpy(&result, d_result, sizeof(int), cudaMemcpyDeviceToHost));
+        std::cout << "Number of '" << targetChar << "' in the text: " << result << std::endl;
+        HANDLE_ERROR(cudaFree(d_result));
     }
-    int len = (int) fread(h_text, sizeof(char), numBytes, fp);
-    fclose(fp);
-    std::cout << "Read " << len << " byte corpus from " << filename << std::endl;
 
-    HANDLE_ERROR(cudaMemcpy(d_text, h_text, len, cudaMemcpyHostToDevice));
-
-    int count = 0;
-    int *d_count;
-    HANDLE_ERROR(cudaMalloc(&d_count, sizeof(int)));
-    HANDLE_ERROR(cudaMemset(d_count, 0, sizeof(int)));
-
-    xyzw_frequency<<<8, 256>>>(d_count, d_text, len);
-    HANDLE_ERROR(cudaMemcpy(&count, d_count, sizeof(int), cudaMemcpyDeviceToHost));
-
-    std::cout << "counted " << count
-            << " instances of 'x', 'y', 'z', or 'w' in \"" << filename << "\""
-            << std::endl;
-
-    HANDLE_ERROR(cudaFree(d_count));
+    // 释放内存
+    HANDLE_ERROR(cudaFreeHost(h_text));
     HANDLE_ERROR(cudaFree(d_text));
-    free(h_text);
 
     return EXIT_SUCCESS;
 }

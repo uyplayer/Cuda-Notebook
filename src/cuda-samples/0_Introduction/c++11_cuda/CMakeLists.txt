@@ -1,11 +1,11 @@
 
 
-
 set(
         SRC
         main.cu
 
 )
+add_definitions(-DPRO_ROOT_DIR="${CMAKE_SOURCE_DIR}")
 
 
 add_executable(
