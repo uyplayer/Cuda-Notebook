@@ -1,7 +1,6 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
-#include <memory>
 #include <string>
 #include <thrust/device_ptr.h>
 #include <thrust/count.h>
