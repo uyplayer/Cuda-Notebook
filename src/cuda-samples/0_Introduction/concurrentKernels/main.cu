@@ -52,8 +52,11 @@ int main() {
         HANDLE_ERROR(cudaStreamCreate(&(streams[i])));
     }
     cudaEvent_t start_event, stop_event;
-    checkCudaErrors(cudaEventCreate(&start_event));
-    checkCudaErrors(cudaEventCreate(&stop_event));
+    HANDLE_ERROR(cudaEventCreate(&start_event));
+    HANDLE_ERROR(cudaEventCreate(&stop_event));
+
+
+
 
 
     exit(EXIT_SUCCESS);
