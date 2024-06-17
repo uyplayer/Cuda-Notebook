@@ -1,6 +1,6 @@
 
 
-find_package(OpenCV  REQUIRED)
+find_package(OpenCV CONFIG REQUIRED)
 if(OpenCV_FOUND)
     message(STATUS "OpenCV found")
     include_directories(${OpenCV_INCLUDE_DIRS})
