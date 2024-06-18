@@ -113,6 +113,7 @@ int main() {
     OUTPUT_ATTR(attr);
     (*func3)<<<DIV_UP(N, THREAD_N), THREAD_N>>>(dInput, dInput + N, dOutput, a);
     HANDLE_ERROR(cudaMemcpy(hOutput, dOutput, sizeof(int) * N, cudaMemcpyDeviceToHost));
+
     cudaFree(dInput);
     cudaFree(dOutput);
     cudaFree(hInput);
