@@ -177,7 +177,7 @@ int main() {
   }
   std::cout << "Result: " << result_intrinsics << std::endl;
 
-  printf("&&&& fp16ScalarProduct %s\n",
+  printf("p16ScalarProduct %s\n",
          (fabs(result_intrinsics - result_native) < 0.00001) ? "PASSED"
                                                              : "FAILED");
 

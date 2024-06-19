@@ -6,7 +6,6 @@
 set(
         SRC
         main.cu
-
 )
 
 
