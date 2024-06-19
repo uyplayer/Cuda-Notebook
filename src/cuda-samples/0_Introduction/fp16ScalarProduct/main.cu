@@ -25,11 +25,24 @@ void generateInput(half2 *a, size_t size) {
 }
 
 
-
 __global__ void scalarProductKernel_native(half2 const *const a,
                                            half2 const *const b,
                                            float *const results,
-                                           size_t const size ){
+                                           size_t const size) {
+
+
+    const int stride = gridDim.x * blockDim.x;
+    __shared__ half2 shArray[NUM_OF_THREADS];
+
+    half2 value(0.f, 0.f);
+    shArray[threadIdx.x] = value;
+
+    for(int i   = threadIdx.x + blockDim.x + blockIdx.x;; i < size; i += stride) {
+        value = a[i] * b[i] + value;
+    }
+
+    shArray[threadIdx.x] = value;
+    __syncthreads();
 
 }
 
@@ -60,7 +73,10 @@ int main() {
 
     for (int i = 0; i < 2; ++i) {
         generateInput(vec[i], size);
-        HANDLE_ERROR(cudaMemcpy(devVec[i], vec[i], size * sizeof *vec[i],cudaMemcpyHostToDevice));
+        HANDLE_ERROR(cudaMemcpy(devVec[i], vec[i], size * sizeof *vec[i], cudaMemcpyHostToDevice));
     }
+
+    scalarProductKernel_native<<<NUM_OF_BLOCKS, NUM_OF_THREADS>>>(devVec[0], devVec[1], devResults, size);
+
     return 0;
 }
