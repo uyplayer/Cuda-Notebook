@@ -25,6 +25,14 @@ void generateInput(half2 *a, size_t size) {
 }
 
 
+
+__global__ void scalarProductKernel_native(half2 const *const a,
+                                           half2 const *const b,
+                                           float *const results,
+                                           size_t const size ){
+
+}
+
 int main() {
     std::cout << "Hello, fp16ScalarProduct !" << std::endl;
 
