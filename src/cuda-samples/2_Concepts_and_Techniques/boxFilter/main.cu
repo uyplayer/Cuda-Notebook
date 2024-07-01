@@ -9,7 +9,7 @@ using namespace cv;
 
 int main() {
     std::cout << "Hello, boxFilter !" << std::endl;
-    std::string project_root{PROJECT_DIR};
+    std::string project_root{PRO_ROOT_DIR};
     std::string imageFile = project_root + "/src/cuda-samples/2_Concepts_and_Techniques/boxFilter/img.png";
 
     Mat image = cv::imread(imageFile, IMREAD_COLOR);
