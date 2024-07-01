@@ -1,15 +1,4 @@
 
-
-
-
-
-
-
-
-
-
-
-
 set(
     Source
     main.cu
